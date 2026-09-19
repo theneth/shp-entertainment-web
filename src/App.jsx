@@ -123,8 +123,8 @@ function App() {
         </section>
 
         {/* EXPERIENCES SECTION */}
-        <section id="experiences" className="w-full bg-pureWhite text-peoBlack py-20 md:py-32 px-4 md:px-8">
-          <div className="max-w-7xl mx-auto flex flex-col items-center">
+        <section id="experiences" className="w-full min-h-[100svh] bg-pureWhite text-peoBlack py-16 px-4 md:px-8 flex flex-col justify-center items-center">
+          <div className="max-w-7xl w-full mx-auto flex flex-col items-center">
             
             {/* Section Header */}
             <div className="text-center mb-12 md:mb-20 w-full flex flex-col items-center">
