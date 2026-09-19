@@ -1,8 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 function App() {
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+
+  // Fallback timeout: ensures the loading screen doesn't get stuck indefinitely 
+  // on mobile browsers with strict autoplay/loading policies.
+  useEffect(() => {
+    const timer = setTimeout(() => setIsVideoLoaded(true), 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="min-h-screen bg-peoBlack text-pureWhite font-sans overflow-hidden flex flex-col">
+      
+      {/* Smart Loading Screen */}
+      <div 
+        className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-peoBlack transition-opacity duration-1000 ease-in-out ${
+          isVideoLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'
+        }`}
+      >
+        <div className="text-3xl md:text-5xl font-black tracking-widest text-white animate-pulse flex flex-col items-center">
+          SHP
+          <span className="text-[10px] md:text-xs uppercase text-gray-400 tracking-[0.5em] mt-2 font-medium">Entertainment</span>
+        </div>
+        <div className="mt-8 flex gap-2">
+          <div className="w-2.5 h-2.5 bg-white rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+          <div className="w-2.5 h-2.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+          <div className="w-2.5 h-2.5 bg-gray-600 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+        </div>
+      </div>
       {/* 
         Header 
         UI FIX 1: Added safe-area padding (pt-8 md:pt-10) so the logo and button 
@@ -30,7 +56,15 @@ function App() {
           
           {/* Background Video */}
           <div className="absolute inset-0 z-0 overflow-hidden">
-            <video autoPlay loop muted playsInline className="w-full h-full object-cover opacity-40 grayscale">
+            <video 
+              autoPlay 
+              loop 
+              muted 
+              playsInline 
+              onCanPlayThrough={() => setIsVideoLoaded(true)}
+              onLoadedData={() => setIsVideoLoaded(true)}
+              className="w-full h-full object-cover opacity-40 grayscale"
+            >
               <source src="/video3.mp4" type="video/mp4" />
             </video>
             {/* Smooth Vignette/Gradient to blend the video into the pitch black */}
