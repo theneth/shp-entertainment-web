@@ -123,7 +123,7 @@ function App() {
         </section>
 
         {/* EXPERIENCES SECTION */}
-        <section id="experiences" className="w-full bg-pureWhite text-peoBlack py-20 md:py-32 px-4 md:px-8 relative z-40 rounded-t-[2.5rem] md:rounded-t-[4rem] -mt-8 md:-mt-12 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
+        <section id="experiences" className="w-full bg-pureWhite text-peoBlack py-20 md:py-32 px-4 md:px-8">
           <div className="max-w-7xl mx-auto flex flex-col items-center">
             
             {/* Section Header */}
