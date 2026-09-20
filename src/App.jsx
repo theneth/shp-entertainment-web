@@ -283,8 +283,12 @@ function App() {
             </div>
 
             {/* Interactive 3D Model Iframe */}
-            <div className="flex-1 w-full flex justify-center items-center h-[50svh] lg:h-[70svh] relative mt-8 lg:mt-0 cursor-grab active:cursor-grabbing">
-              {/* Added CSS trick params to Sketchfab URL: autostart=1, transparent=1, and hiding UI */}
+            <div className="flex-1 w-full h-[50svh] lg:h-[70svh] relative mt-8 lg:mt-0 cursor-grab active:cursor-grabbing overflow-hidden rounded-[2rem]">
+              {/* 
+                PRO UI TRICK: Sketchfab forces UI overlays (watermarks, controls) on free accounts. 
+                To completely hide them, we add overflow-hidden to the parent and make the iframe 
+                significantly larger than the wrapper. This physically crops out the top and bottom UI bars! 
+              */}
               <iframe 
                 title="Professional DJ Controller" 
                 frameBorder="0" 
@@ -297,11 +301,11 @@ function App() {
                 execution-while-not-rendered="true" 
                 web-share="true" 
                 src="https://sketchfab.com/models/73ff0de3ac0346fbbbc5784d416080a1/embed?autostart=1&transparent=1&ui_infos=0&ui_watermark_link=0&ui_watermark=0&ui_hint=0&ui_theme=dark&dnt=1"
-                className="w-full h-full scale-[1.1] md:scale-[1.2] relative z-20"
+                className="absolute top-[-90px] left-[-50px] w-[calc(100%+100px)] h-[calc(100%+180px)] z-20 pointer-events-auto"
               ></iframe>
               
               {/* Interaction Hint Overlay (fades out on hover) */}
-              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 px-4 py-2 bg-black/60 backdrop-blur-md rounded-full border border-white/10 text-[9px] font-bold tracking-widest uppercase text-gray-400 pointer-events-none z-30 transition-opacity duration-500 opacity-100 lg:opacity-0 lg:group-hover:opacity-100">
+              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 px-4 py-2 bg-black/60 backdrop-blur-md rounded-full border border-white/10 text-[9px] font-bold tracking-widest uppercase text-gray-400 pointer-events-none z-30 transition-opacity duration-500 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 shadow-[0_0_20px_rgba(0,0,0,0.8)]">
                 Drag to Rotate 3D Model
               </div>
             </div>
