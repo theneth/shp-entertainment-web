@@ -294,7 +294,7 @@ function App() {
                   {/* The actual Pioneer DJ Deck */}
                   <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
                     <Center>
-                      <DJDeck scale={0.005} rotation={[0.2, Math.PI, 0]} />
+                      <DJDeck scale={0.3} rotation={[0.2, Math.PI, 0]} />
                     </Center>
                   </Float>
                   
