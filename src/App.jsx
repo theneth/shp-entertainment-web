@@ -14,12 +14,23 @@ const services = [
 
 function App() {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   // Fallback timeout: ensures the loading screen doesn't get stuck indefinitely 
   // on mobile browsers with strict autoplay/loading policies.
   useEffect(() => {
     const timer = setTimeout(() => setIsVideoLoaded(true), 5000);
     return () => clearTimeout(timer);
+  }, []);
+
+  // Listen to scroll to change navbar theme
+  useEffect(() => {
+    const handleScroll = () => {
+      // Toggle theme when scrolling past 90% of the viewport height (the hero section)
+      setIsScrolled(window.scrollY > window.innerHeight * 0.9);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // Helper to render cards consistently across mobile and desktop
@@ -65,17 +76,31 @@ function App() {
       </div>
 
       {/* NAVIGATION */}
-      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-6 bg-gradient-to-b from-black/80 to-transparent backdrop-blur-sm">
+      <header 
+        className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-4 md:py-6 transition-all duration-500 ${
+          isScrolled 
+            ? 'bg-white/95 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.05)] text-black' 
+            : 'bg-gradient-to-b from-black/80 to-transparent text-white'
+        }`}
+      >
         <div className="flex flex-col">
           <h1 className="text-2xl font-black tracking-tighter leading-none">SHP</h1>
-          <span className="text-[0.6rem] tracking-[0.3em] text-gray-400 font-bold uppercase mt-1">Entertainment</span>
+          <span className={`text-[0.6rem] tracking-[0.3em] font-bold uppercase mt-1 transition-colors duration-500 ${
+            isScrolled ? 'text-gray-500' : 'text-gray-400'
+          }`}>
+            Entertainment
+          </span>
         </div>
         <nav className="hidden md:flex items-center gap-8 text-xs font-bold tracking-[0.2em]">
-          <a href="#home" className="hover:text-gray-300 transition-colors">HOME</a>
-          <a href="#experiences" className="hover:text-gray-300 transition-colors">EXPERIENCES</a>
-          <a href="#vault" className="hover:text-gray-300 transition-colors">THE VAULT</a>
+          <a href="#home" className={`transition-colors ${isScrolled ? 'hover:text-gray-500' : 'hover:text-gray-300'}`}>HOME</a>
+          <a href="#experiences" className={`transition-colors ${isScrolled ? 'hover:text-gray-500' : 'hover:text-gray-300'}`}>EXPERIENCES</a>
+          <a href="#vault" className={`transition-colors ${isScrolled ? 'hover:text-gray-500' : 'hover:text-gray-300'}`}>THE VAULT</a>
         </nav>
-        <button className="bg-white text-black px-6 py-2.5 rounded-full text-xs font-bold tracking-wider hover:bg-gray-200 hover:scale-105 transition-all shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+        <button className={`px-6 py-2.5 rounded-full text-xs font-bold tracking-wider transition-all duration-500 hover:scale-105 ${
+          isScrolled 
+            ? 'bg-black text-white hover:bg-gray-800 shadow-md' 
+            : 'bg-white text-black hover:bg-gray-200 shadow-[0_0_15px_rgba(255,255,255,0.3)]'
+        }`}>
           BOOK NOW
         </button>
       </header>
@@ -130,7 +155,7 @@ function App() {
         </section>
 
         {/* EXPERIENCES SECTION */}
-        <section id="experiences" className="w-full min-h-[100svh] bg-white text-black py-12 md:py-20 flex flex-col items-center overflow-hidden relative">
+        <section id="experiences" className="w-full min-h-[100svh] bg-white text-black pt-28 pb-12 md:pt-32 md:pb-20 flex flex-col items-center overflow-hidden relative">
           
           {/* Section Header */}
           <div className="flex-none text-center mb-8 w-full flex flex-col items-center px-4 md:px-8">
