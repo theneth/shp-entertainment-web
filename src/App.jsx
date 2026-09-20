@@ -291,16 +291,21 @@ function App() {
                   {/* High quality studio environment lighting */}
                   <Environment preset="studio" />
                   
-                  {/* The actual Pioneer DJ Deck */}
-                  <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
-                    <DJDeck scale={10} position={[0, -0.5, 0]} rotation={[0.2, Math.PI, 0]} />
-                  </Float>
+                  {/* The actual Pioneer DJ Deck wrapped in Bounds to perfectly auto-zoom the camera */}
+                  <Bounds fit clip observe margin={1.2}>
+                    <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
+                      <Center>
+                        <DJDeck scale={1} rotation={[0.2, Math.PI, 0]} />
+                      </Center>
+                    </Float>
+                  </Bounds>
                   
                   {/* Orbit controls for dragging/zooming */}
                   <OrbitControls 
+                    makeDefault
                     enablePan={false} 
-                    minDistance={3} 
-                    maxDistance={8}
+                    minDistance={1} 
+                    maxDistance={20}
                     maxPolarAngle={Math.PI / 1.8}
                   />
                   <Preload all />
