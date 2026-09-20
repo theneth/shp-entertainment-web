@@ -1,5 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, useRef } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { useGLTF, Environment, OrbitControls, Center, Preload } from '@react-three/drei';
 import { Heart, Music, Users, Gem, Cake, Sparkles, Scissors, PartyPopper, ArrowRight } from 'lucide-react';
+
+// Custom DJ Deck Component for R3F
+function DJDeck(props) {
+  // Using the new Drago-compressed, highly optimized file
+  const { scene } = useGLTF('/pioneer_dj_console_opt.glb')
+  return (
+    <group {...props}>
+      <primitive object={scene} />
+    </group>
+  )
+}
 
 const services = [
   { name: 'Weddings', icon: Heart, span: 'col-span-2 md:col-span-2 lg:col-span-2' },
@@ -255,24 +268,39 @@ function App() {
             {/* Subtle Background Glow behind model */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[100vw] max-w-[1000px] max-h-[1000px] bg-blue-900/15 blur-[150px] rounded-full pointer-events-none z-0"></div>
 
-            {/* Scaled Wrapper: This shrinks the 3D model down visually by 25% on desktop while maintaining the CSS crop hack! */}
-            {/* Added overflow-hidden so the UI is physically chopped off BEFORE it gets scaled down! */}
-            <div className="w-full h-full relative scale-[1.1] md:scale-[0.8] lg:scale-[0.75] overflow-hidden rounded-[3rem]">
-              {/* CSS Cropped Iframe (Massive overhangs to completely hide Sketchfab UI) */}
-              <iframe 
-                title="Professional DJ Controller" 
-                frameBorder="0" 
-                allowFullScreen 
-                mozallowfullscreen="true" 
-                webkitallowfullscreen="true" 
-                allow="autoplay; fullscreen; xr-spatial-tracking" 
-                xr-spatial-tracking="true" 
-                execution-while-out-of-viewport="true" 
-                execution-while-not-rendered="true" 
-                web-share="true" 
-                src="https://sketchfab.com/models/73ff0de3ac0346fbbbc5784d416080a1/embed?autostart=1&transparent=1&ui_infos=0&ui_watermark_link=0&ui_watermark=0&ui_hint=0&ui_theme=dark&dnt=1&animation_autoplay=1&autospin=0.1"
-                className="absolute top-[-120px] left-[-80px] w-[calc(100%+160px)] h-[calc(100%+240px)] z-10 pointer-events-auto"
-              ></iframe>
+            {/* Native Three.js WebGL Render (Optimized) */}
+            <div className="absolute inset-0 w-full h-full z-10 cursor-grab active:cursor-grabbing">
+              <Suspense fallback={
+                <div className="absolute inset-0 flex items-center justify-center text-white/50 animate-pulse font-bold tracking-[0.2em] text-xs">
+                  LOADING VAULT SYSTEM...
+                </div>
+              }>
+                <Canvas 
+                  camera={{ position: [0, 1.5, 3], fov: 35 }} 
+                  dpr={1} 
+                  gl={{ antialias: false, powerPreference: "high-performance", precision: "lowp" }}
+                >
+                  <ambientLight intensity={0.5} />
+                  <spotLight position={[0, 5, 5]} angle={0.5} penumbra={1} intensity={1} />
+                  <spotLight position={[-5, 5, -5]} angle={0.5} penumbra={1} intensity={0.5} />
+                  
+                  {/* Lower resolution HDRI to save VRAM */}
+                  <Environment preset="studio" resolution={256} />
+                  
+                  {/* DJ Deck positioned to bring the LCD Screen directly into view */}
+                  <DJDeck scale={0.2} position={[0, -0.5, 1]} rotation={[0.4, 0, 0]} />
+                  
+                  {/* Orbit controls for precise framing */}
+                  <OrbitControls 
+                    makeDefault
+                    enablePan={true}
+                    enableZoom={true}
+                    minDistance={0.5} 
+                    maxDistance={10}
+                  />
+                  <Preload all />
+                </Canvas>
+              </Suspense>
             </div>
 
             {/* Fade gradients top and bottom */}
