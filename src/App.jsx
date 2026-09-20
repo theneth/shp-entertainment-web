@@ -256,8 +256,9 @@ function App() {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[100vw] max-w-[1000px] max-h-[1000px] bg-blue-900/15 blur-[150px] rounded-full pointer-events-none z-0"></div>
 
             {/* Scaled Wrapper: This shrinks the 3D model down visually by 25% on desktop while maintaining the CSS crop hack! */}
-            <div className="w-full h-full relative scale-[1.1] md:scale-[0.8] lg:scale-[0.75]">
-              {/* CSS Cropped Iframe (Massive) */}
+            {/* Added overflow-hidden so the UI is physically chopped off BEFORE it gets scaled down! */}
+            <div className="w-full h-full relative scale-[1.1] md:scale-[0.8] lg:scale-[0.75] overflow-hidden rounded-[3rem]">
+              {/* CSS Cropped Iframe (Massive overhangs to completely hide Sketchfab UI) */}
               <iframe 
                 title="Professional DJ Controller" 
                 frameBorder="0" 
@@ -269,8 +270,8 @@ function App() {
                 execution-while-out-of-viewport="true" 
                 execution-while-not-rendered="true" 
                 web-share="true" 
-                src="https://sketchfab.com/models/73ff0de3ac0346fbbbc5784d416080a1/embed?autostart=1&transparent=1&ui_infos=0&ui_watermark_link=0&ui_watermark=0&ui_hint=0&ui_theme=dark&dnt=1"
-                className="absolute top-[-90px] left-[-50px] w-[calc(100%+100px)] h-[calc(100%+180px)] z-10 pointer-events-auto"
+                src="https://sketchfab.com/models/73ff0de3ac0346fbbbc5784d416080a1/embed?autostart=1&transparent=1&ui_infos=0&ui_watermark_link=0&ui_watermark=0&ui_hint=0&ui_theme=dark&dnt=1&animation_autoplay=0&camera=0&ui_animations=0"
+                className="absolute top-[-120px] left-[-80px] w-[calc(100%+160px)] h-[calc(100%+240px)] z-10 pointer-events-auto"
               ></iframe>
             </div>
 
