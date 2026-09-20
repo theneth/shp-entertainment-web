@@ -23,11 +23,11 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-peoBlack text-pureWhite font-sans overflow-hidden flex flex-col">
+    <div className="min-h-screen bg-black text-white font-sans overflow-x-hidden flex flex-col">
       
       {/* Smart Loading Screen */}
       <div 
-        className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-peoBlack transition-opacity duration-1000 ease-in-out ${
+        className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black transition-opacity duration-1000 ease-in-out ${
           isVideoLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
       >
@@ -64,7 +64,7 @@ function App() {
       </header>
 
       <main className="flex-grow">
-        <section className="relative h-[100svh] w-full flex flex-col items-center justify-center overflow-hidden bg-peoBlack">
+        <section className="relative h-[100svh] w-full flex flex-col items-center justify-center overflow-hidden bg-black">
           
           {/* Background Video */}
           <div className="absolute inset-0 z-0 overflow-hidden">
@@ -117,13 +117,13 @@ function App() {
               fetchPriority="high"
             />
             {/* Bottom fade out so the DJ deck blends seamlessly into the next page section */}
-            <div className="absolute bottom-0 w-full h-16 md:h-24 bg-gradient-to-t from-peoBlack to-transparent z-30 pointer-events-none"></div>
+            <div className="absolute bottom-0 w-full h-16 md:h-24 bg-gradient-to-t from-black to-transparent z-30 pointer-events-none"></div>
           </div>
           
         </section>
 
         {/* EXPERIENCES SECTION */}
-        <section id="experiences" className="w-full min-h-[100svh] bg-pureWhite text-peoBlack py-16 px-4 md:px-8 flex flex-col justify-center items-center">
+        <section id="experiences" className="w-full min-h-[100svh] bg-white text-black py-16 px-4 md:px-8 flex flex-col justify-center items-center">
           <div className="max-w-7xl w-full mx-auto flex flex-col items-center">
             
             {/* Section Header */}
@@ -143,12 +143,12 @@ function App() {
               {services.map((service, index) => (
                 <div 
                   key={index} 
-                  className={`group relative overflow-hidden flex flex-col items-center justify-center p-6 md:p-8 min-h-[160px] md:min-h-[240px] bg-white hover:bg-peoBlack hover:text-white rounded-3xl md:rounded-[2rem] transition-all duration-500 cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-2xl border border-gray-100 ${service.span}`}
+                  className={`group relative overflow-hidden flex flex-col items-center justify-center p-6 md:p-8 min-h-[160px] md:min-h-[240px] bg-white hover:bg-black hover:text-white rounded-3xl md:rounded-[2rem] transition-all duration-500 cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-2xl border border-gray-100 ${service.span}`}
                 >
                   {/* Subtle background glow on hover */}
                   <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                   
-                  <service.icon className="w-8 h-8 md:w-12 md:h-12 mb-4 md:mb-6 stroke-[1.5] text-peoBlack group-hover:text-white group-hover:scale-110 group-hover:-translate-y-2 transition-all duration-500 relative z-10" />
+                  <service.icon className="w-8 h-8 md:w-12 md:h-12 mb-4 md:mb-6 stroke-[1.5] text-black group-hover:text-white group-hover:scale-110 group-hover:-translate-y-2 transition-all duration-500 relative z-10" />
                   
                   <h3 className="text-xs sm:text-sm md:text-base font-bold uppercase tracking-widest text-center relative z-10 group-hover:-translate-y-2 transition-all duration-500">
                     {service.name}
@@ -163,7 +163,7 @@ function App() {
             </div>
             
             {/* CTA Button */}
-            <button className="mt-12 md:mt-20 group flex items-center gap-4 bg-peoBlack text-white px-8 md:px-10 py-4 md:py-5 rounded-full text-xs md:text-sm font-bold uppercase tracking-widest hover:scale-105 transition-transform duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.2)]">
+            <button className="mt-12 md:mt-20 group flex items-center gap-4 bg-black text-white px-8 md:px-10 py-4 md:py-5 rounded-full text-xs md:text-sm font-bold uppercase tracking-widest hover:scale-105 transition-transform duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.2)]">
               Explore All
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
