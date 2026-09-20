@@ -146,12 +146,14 @@ function App() {
           
           {/* Infinite Marquee Rails (Responsive) */}
           {/* Removed overflow-hidden here to allow shadows and hover scales to render freely without being clipped vertically */}
-          <div className="flex-1 w-full flex flex-col items-center justify-center relative group py-4">
-            
-            {/* Fade Gradients for smooth entrance/exit */}
-            <div className="absolute left-0 top-0 bottom-0 w-12 md:w-32 bg-gradient-to-r from-white to-transparent z-20 pointer-events-none"></div>
-            <div className="absolute right-0 top-0 bottom-0 w-12 md:w-32 bg-gradient-to-l from-white to-transparent z-20 pointer-events-none"></div>
-
+          {/* Pro UI Trick: Used CSS mask-image instead of white gradient overlays so hovered (black) cards fade transparently without getting a milky white wash! */}
+          <div 
+            className="flex-1 w-full flex flex-col items-center justify-center relative group py-4"
+            style={{ 
+              maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+              WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)'
+            }}
+          >
             {/* ----------------- DESKTOP: SINGLE RAIL ----------------- */}
             <div className="hidden md:flex flex-nowrap w-full">
               {[...Array(4)].map((_, trackIndex) => (
