@@ -284,19 +284,21 @@ function App() {
                   LOADING VAULT SYSTEM...
                 </div>
               }>
-                <Canvas camera={{ position: [0, 2, 5], fov: 45 }} dpr={[1, 1.5]}>
+                <Canvas 
+                  camera={{ position: [0, 2, 5], fov: 45 }} 
+                  dpr={1} 
+                  gl={{ antialias: false, powerPreference: "high-performance", precision: "lowp" }}
+                >
                   <ambientLight intensity={0.5} />
                   <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} />
                   
-                  {/* High quality studio environment lighting */}
-                  <Environment preset="studio" />
+                  {/* Lower resolution HDRI to save VRAM */}
+                  <Environment preset="studio" resolution={256} />
                   
-                  {/* The actual Pioneer DJ Deck */}
-                  <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
-                    <Center>
-                      <DJDeck scale={0.06} position={[0, -0.5, 0]} rotation={[0.2, Math.PI, 0]} />
-                    </Center>
-                  </Float>
+                  {/* The actual Pioneer DJ Deck (Static, removed Float to save GPU cycles) */}
+                  <Center>
+                    <DJDeck scale={0.06} position={[0, -0.5, 0]} rotation={[0.2, Math.PI, 0]} />
+                  </Center>
                   
                   {/* Orbit controls for dragging/zooming */}
                   <OrbitControls 
