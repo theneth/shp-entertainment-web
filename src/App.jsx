@@ -27,22 +27,22 @@ function App() {
     <div 
       key={`${service.name}-${index}`} 
       className={`group/card relative overflow-hidden flex flex-col items-center justify-center flex-shrink-0 bg-white hover:bg-black hover:text-white transition-all duration-500 cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-2xl border border-gray-100 ${
-        isMobile ? 'w-[220px] h-[160px] rounded-2xl mr-4' : 'w-[350px] lg:w-[450px] h-[280px] lg:h-[350px] rounded-[2rem] mr-8'
+        isMobile ? 'w-[180px] sm:w-[200px] h-[130px] sm:h-[140px] rounded-2xl mr-3 sm:mr-4' : 'w-[350px] lg:w-[450px] h-[280px] lg:h-[350px] rounded-[2rem] mr-8'
       }`}
     >
       <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500"></div>
-      <service.icon className={`stroke-[1.5] text-black group-hover/card:text-white group-hover/card:scale-110 group-hover/card:-translate-y-2 transition-all duration-500 relative z-10 ${
-        isMobile ? 'w-8 h-8 mb-3' : 'w-14 h-14 lg:w-16 lg:h-16 mb-6'
+      <service.icon className={`stroke-[1.5] text-black group-hover/card:text-white group-hover/card:scale-110 lg:group-hover/card:-translate-y-2 transition-all duration-500 relative z-10 ${
+        isMobile ? 'w-7 h-7 sm:w-8 sm:h-8 mb-2 sm:mb-3 group-hover/card:-translate-y-1' : 'w-14 h-14 lg:w-16 lg:h-16 mb-6 group-hover/card:-translate-y-2'
       }`} />
-      <h3 className={`font-bold uppercase tracking-widest text-center relative z-10 group-hover/card:-translate-y-2 transition-all duration-500 ${
-        isMobile ? 'text-[10px] sm:text-xs' : 'text-sm lg:text-base'
+      <h3 className={`font-bold uppercase tracking-widest text-center relative z-10 transition-all duration-500 ${
+        isMobile ? 'text-[9px] sm:text-[10px] group-hover/card:-translate-y-1' : 'text-sm lg:text-base group-hover/card:-translate-y-2'
       }`}>
         {service.name}
       </h3>
       <div className={`absolute opacity-0 transform translate-y-4 group-hover/card:opacity-100 group-hover/card:translate-y-0 transition-all duration-500 text-gray-400 ${
-        isMobile ? 'bottom-4' : 'bottom-8'
+        isMobile ? 'bottom-3 sm:bottom-4' : 'bottom-8'
       }`}>
-        <ArrowRight className={isMobile ? 'w-4 h-4' : 'w-5 h-5'} />
+        <ArrowRight className={isMobile ? 'w-3 h-3 sm:w-4 sm:h-4' : 'w-5 h-5'} />
       </div>
     </div>
   );
@@ -182,8 +182,8 @@ function App() {
               ))}
             </div>
 
-            {/* ----------------- MOBILE: DOUBLE RAIL ----------------- */}
-            <div className="flex md:hidden flex-col gap-4 w-full">
+            {/* ----------------- MOBILE: TRIPLE RAIL ----------------- */}
+            <div className="flex md:hidden flex-col gap-3 sm:gap-4 w-full">
               {/* Mobile Row 1: Scrolls Left */}
               <div className="flex flex-nowrap w-full">
                 {[...Array(6)].map((_, trackIndex) => (
@@ -192,7 +192,7 @@ function App() {
                     className="flex flex-nowrap animate-marquee shrink-0 group-hover:[animation-play-state:paused]"
                     aria-hidden={trackIndex > 0 ? "true" : "false"}
                   >
-                    {services.slice(0, 4).map((service, index) => renderCard(service, true, index))}
+                    {services.slice(0, 3).map((service, index) => renderCard(service, true, index))}
                   </div>
                 ))}
               </div>
@@ -205,7 +205,20 @@ function App() {
                     className="flex flex-nowrap animate-marquee-reverse shrink-0 group-hover:[animation-play-state:paused]"
                     aria-hidden={trackIndex > 0 ? "true" : "false"}
                   >
-                    {services.slice(4, 8).map((service, index) => renderCard(service, true, index + 4))}
+                    {services.slice(3, 6).map((service, index) => renderCard(service, true, index + 3))}
+                  </div>
+                ))}
+              </div>
+
+              {/* Mobile Row 3: Scrolls Left */}
+              <div className="flex flex-nowrap w-full">
+                {[...Array(6)].map((_, trackIndex) => (
+                  <div 
+                    key={`mob3-${trackIndex}`} 
+                    className="flex flex-nowrap animate-marquee shrink-0 group-hover:[animation-play-state:paused]"
+                    aria-hidden={trackIndex > 0 ? "true" : "false"}
+                  >
+                    {[services[6], services[7], services[0]].map((service, index) => renderCard(service, true, index + 6))}
                   </div>
                 ))}
               </div>
