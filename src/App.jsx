@@ -247,65 +247,68 @@ function App() {
         </section>
 
         {/* TECH SHOWCASE SECTION (Section 4) */}
-        <section id="vault" className="w-full min-h-[100svh] h-[100svh] bg-black text-white relative flex flex-col items-center justify-between overflow-hidden border-t border-white/5 py-24 md:py-32">
+        <section id="vault" className="w-full min-h-[100svh] h-[100svh] bg-black text-white relative flex flex-col md:block items-center justify-between overflow-hidden border-t border-white/5 py-24 md:py-0">
           
-          {/* 3D Model Full Background (Absolute) */}
+          {/* 3D Model Center Stage (Scaled down to feel "Zoomed Out") */}
           <div className="absolute inset-0 z-0 bg-black flex items-center justify-center cursor-grab active:cursor-grabbing">
             
             {/* Subtle Background Glow behind model */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[100vw] max-w-[1000px] max-h-[1000px] bg-blue-900/15 blur-[150px] rounded-full pointer-events-none z-0"></div>
 
-            {/* CSS Cropped Iframe (Massive) */}
-            <iframe 
-              title="Professional DJ Controller" 
-              frameBorder="0" 
-              allowFullScreen 
-              mozallowfullscreen="true" 
-              webkitallowfullscreen="true" 
-              allow="autoplay; fullscreen; xr-spatial-tracking" 
-              xr-spatial-tracking="true" 
-              execution-while-out-of-viewport="true" 
-              execution-while-not-rendered="true" 
-              web-share="true" 
-              src="https://sketchfab.com/models/73ff0de3ac0346fbbbc5784d416080a1/embed?autostart=1&transparent=1&ui_infos=0&ui_watermark_link=0&ui_watermark=0&ui_hint=0&ui_theme=dark&dnt=1"
-              className="absolute top-[-90px] left-[-50px] w-[calc(100%+100px)] h-[calc(100%+180px)] z-10 pointer-events-auto"
-            ></iframe>
+            {/* Scaled Wrapper: This shrinks the 3D model down visually by 25% on desktop while maintaining the CSS crop hack! */}
+            <div className="w-full h-full relative scale-[1.1] md:scale-[0.8] lg:scale-[0.75]">
+              {/* CSS Cropped Iframe (Massive) */}
+              <iframe 
+                title="Professional DJ Controller" 
+                frameBorder="0" 
+                allowFullScreen 
+                mozallowfullscreen="true" 
+                webkitallowfullscreen="true" 
+                allow="autoplay; fullscreen; xr-spatial-tracking" 
+                xr-spatial-tracking="true" 
+                execution-while-out-of-viewport="true" 
+                execution-while-not-rendered="true" 
+                web-share="true" 
+                src="https://sketchfab.com/models/73ff0de3ac0346fbbbc5784d416080a1/embed?autostart=1&transparent=1&ui_infos=0&ui_watermark_link=0&ui_watermark=0&ui_hint=0&ui_theme=dark&dnt=1"
+                className="absolute top-[-90px] left-[-50px] w-[calc(100%+100px)] h-[calc(100%+180px)] z-10 pointer-events-auto"
+              ></iframe>
+            </div>
 
-            {/* Fade gradients top and bottom to smoothly blend the massive 3D space into the black section bounds */}
+            {/* Fade gradients top and bottom */}
             <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black pointer-events-none z-20"></div>
           </div>
 
-          {/* Foreground Text Content (Top) */}
-          <div className="relative z-30 flex flex-col items-center text-center w-full px-6 pointer-events-none mt-[2svh]">
+          {/* Foreground Text Content (Left Side on Desktop, Top on Mobile) */}
+          <div className="relative md:absolute md:left-8 lg:left-12 xl:left-24 md:top-1/2 md:-translate-y-1/2 z-30 flex flex-col items-center md:items-start text-center md:text-left w-full md:w-[350px] lg:w-[420px] px-6 md:px-0 pointer-events-none mt-[2svh] md:mt-0">
             <span className="flex items-center gap-3 text-[10px] md:text-xs font-black tracking-[0.5em] text-gray-400 uppercase mb-4 drop-shadow-md">
               <div className="w-6 md:w-10 h-px bg-gray-500"></div>
               The Vault
-              <div className="w-6 md:w-10 h-px bg-gray-500"></div>
+              <div className="w-6 md:w-10 h-px bg-gray-500 hidden md:block"></div>
             </span>
             
-            <h2 className="text-4xl sm:text-5xl md:text-7xl font-black uppercase tracking-tighter leading-[0.9] mb-4 drop-shadow-2xl">
-              Pro-Level <br className="md:hidden" />
+            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-[5rem] font-black uppercase tracking-tighter leading-[0.9] mb-4 md:mb-6 drop-shadow-2xl">
+              Pro-Level <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-500">Production</span>
             </h2>
             
-            <p className="text-sm md:text-base text-gray-300 max-w-2xl leading-relaxed font-medium mx-auto drop-shadow-xl shadow-black">
+            <p className="text-sm md:text-base text-gray-300 max-w-2xl md:max-w-none leading-relaxed font-medium drop-shadow-xl shadow-black">
               We don't just bring the music; we bring the club to you. Experience industry-leading sound systems and intelligent stage lighting setups.
             </p>
           </div>
 
-          {/* Foreground Stats & Hint (Bottom) */}
-          <div className="relative z-30 flex flex-col items-center pointer-events-none mb-[2svh]">
+          {/* Foreground Stats & Hint (Right Side on Desktop, Bottom on Mobile) */}
+          <div className="relative md:absolute md:right-8 lg:right-12 xl:right-24 md:top-1/2 md:-translate-y-1/2 z-30 flex flex-col items-center md:items-end pointer-events-none mb-[2svh] md:mb-0 mt-auto md:mt-0">
             
-            {/* Quick Stats in a floating glass pill */}
-            <div className="flex items-center gap-8 md:gap-16 bg-black/40 backdrop-blur-md px-8 py-4 rounded-full border border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.8)] mb-6">
-              <div className="flex flex-col items-center">
-                <span className="text-xl md:text-2xl font-black text-white">100%</span>
-                <span className="text-[8px] md:text-[9px] tracking-[0.2em] text-gray-400 uppercase mt-1 font-bold">Pioneer Gear</span>
+            {/* Quick Stats in a floating glass pill (Vertical on desktop, horizontal on mobile) */}
+            <div className="flex md:flex-col items-center md:items-end gap-8 md:gap-6 bg-black/40 backdrop-blur-md px-8 md:px-6 py-4 md:py-8 rounded-full md:rounded-[2rem] border border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.8)] mb-6 md:mb-8 text-center md:text-right">
+              <div className="flex flex-col items-center md:items-end">
+                <span className="text-xl md:text-3xl font-black text-white">100%</span>
+                <span className="text-[8px] md:text-[9px] tracking-[0.2em] text-gray-400 uppercase mt-1 md:mt-2 font-bold">Pioneer Gear</span>
               </div>
-              <div className="w-px h-8 bg-gray-600"></div>
-              <div className="flex flex-col items-center">
-                <span className="text-xl md:text-2xl font-black text-white">8kW+</span>
-                <span className="text-[8px] md:text-[9px] tracking-[0.2em] text-gray-400 uppercase mt-1 font-bold">Sound Systems</span>
+              <div className="w-px md:w-8 h-8 md:h-px bg-gray-600"></div>
+              <div className="flex flex-col items-center md:items-end">
+                <span className="text-xl md:text-3xl font-black text-white">8kW+</span>
+                <span className="text-[8px] md:text-[9px] tracking-[0.2em] text-gray-400 uppercase mt-1 md:mt-2 font-bold">Sound Systems</span>
               </div>
             </div>
 
