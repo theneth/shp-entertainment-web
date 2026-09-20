@@ -247,70 +247,71 @@ function App() {
         </section>
 
         {/* TECH SHOWCASE SECTION (Section 4) */}
-        <section id="vault" className="w-full min-h-[100svh] bg-black text-white relative flex flex-col items-center justify-center overflow-hidden py-24 md:py-32 px-6 md:px-12 border-t border-white/5">
+        <section id="vault" className="w-full min-h-[100svh] bg-black text-white relative flex flex-col items-center pt-24 md:pt-28 pb-8 overflow-hidden border-t border-white/5">
           
           {/* Subtle Background Glow for the 3D Model */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] max-w-[800px] max-h-[800px] bg-blue-900/20 blur-[120px] rounded-full pointer-events-none"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] max-w-[800px] max-h-[800px] bg-blue-900/20 blur-[150px] rounded-full pointer-events-none z-0"></div>
 
-          <div className="w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20 relative z-10">
+          {/* Header Text Content (Top 1/5) */}
+          <div className="flex-none flex flex-col items-center text-center w-full px-6 relative z-10 mb-8 md:mb-12">
+            <span className="flex items-center gap-3 text-[10px] md:text-xs font-black tracking-[0.5em] text-gray-400 uppercase mb-4">
+              <div className="w-6 md:w-10 h-px bg-gray-600"></div>
+              The Vault
+              <div className="w-6 md:w-10 h-px bg-gray-600"></div>
+            </span>
             
-            {/* Text Content */}
-            <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left w-full">
-              <span className="flex items-center gap-3 text-[10px] md:text-xs font-black tracking-[0.5em] text-gray-400 uppercase mb-4 md:mb-6">
-                <div className="w-8 h-px bg-gray-600 lg:hidden"></div>
-                The Vault
-                <div className="w-8 lg:w-12 h-px bg-gray-600"></div>
-              </span>
-              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter leading-[0.9] mb-6">
-                Pro-Level <br className="hidden sm:block" />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-600">Production</span>
-              </h2>
-              <p className="text-sm md:text-base text-gray-400 max-w-md leading-relaxed font-medium mb-8">
-                We don't just bring the music; we bring the club to you. Experience industry-leading sound systems and intelligent stage lighting setups.
-              </p>
-              
-              <div className="flex gap-8 md:gap-12">
-                <div className="flex flex-col">
-                  <span className="text-2xl md:text-4xl font-black">100%</span>
-                  <span className="text-[9px] md:text-[10px] tracking-[0.2em] text-gray-500 uppercase mt-1 font-bold">Pioneer Gear</span>
-                </div>
-                <div className="w-px h-auto bg-gray-800"></div>
-                <div className="flex flex-col">
-                  <span className="text-2xl md:text-4xl font-black">8kW+</span>
-                  <span className="text-[9px] md:text-[10px] tracking-[0.2em] text-gray-500 uppercase mt-1 font-bold">Sound Systems</span>
-                </div>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter leading-[0.9] mb-4">
+              Pro-Level <br className="md:hidden" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-600">Production</span>
+            </h2>
+            
+            <p className="text-sm md:text-base text-gray-400 max-w-2xl leading-relaxed font-medium mx-auto">
+              We don't just bring the music; we bring the club to you. Experience industry-leading sound systems and intelligent stage lighting setups.
+            </p>
+            
+            {/* Quick Stats */}
+            <div className="flex items-center gap-8 md:gap-16 mt-6">
+              <div className="flex flex-col items-center">
+                <span className="text-2xl md:text-3xl font-black">100%</span>
+                <span className="text-[8px] md:text-[9px] tracking-[0.2em] text-gray-500 uppercase mt-1 font-bold">Pioneer Gear</span>
+              </div>
+              <div className="w-px h-8 bg-gray-800"></div>
+              <div className="flex flex-col items-center">
+                <span className="text-2xl md:text-3xl font-black">8kW+</span>
+                <span className="text-[8px] md:text-[9px] tracking-[0.2em] text-gray-500 uppercase mt-1 font-bold">Sound Systems</span>
               </div>
             </div>
-
-            {/* Interactive 3D Model Iframe */}
-            <div className="flex-1 w-full h-[50svh] lg:h-[70svh] relative mt-8 lg:mt-0 cursor-grab active:cursor-grabbing overflow-hidden rounded-[2rem]">
-              {/* 
-                PRO UI TRICK: Sketchfab forces UI overlays (watermarks, controls) on free accounts. 
-                To completely hide them, we add overflow-hidden to the parent and make the iframe 
-                significantly larger than the wrapper. This physically crops out the top and bottom UI bars! 
-              */}
-              <iframe 
-                title="Professional DJ Controller" 
-                frameBorder="0" 
-                allowFullScreen 
-                mozallowfullscreen="true" 
-                webkitallowfullscreen="true" 
-                allow="autoplay; fullscreen; xr-spatial-tracking" 
-                xr-spatial-tracking="true" 
-                execution-while-out-of-viewport="true" 
-                execution-while-not-rendered="true" 
-                web-share="true" 
-                src="https://sketchfab.com/models/73ff0de3ac0346fbbbc5784d416080a1/embed?autostart=1&transparent=1&ui_infos=0&ui_watermark_link=0&ui_watermark=0&ui_hint=0&ui_theme=dark&dnt=1"
-                className="absolute top-[-90px] left-[-50px] w-[calc(100%+100px)] h-[calc(100%+180px)] z-20 pointer-events-auto"
-              ></iframe>
-              
-              {/* Interaction Hint Overlay (fades out on hover) */}
-              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 px-4 py-2 bg-black/60 backdrop-blur-md rounded-full border border-white/10 text-[9px] font-bold tracking-widest uppercase text-gray-400 pointer-events-none z-30 transition-opacity duration-500 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 shadow-[0_0_20px_rgba(0,0,0,0.8)]">
-                Drag to Rotate 3D Model
-              </div>
-            </div>
-            
           </div>
+
+          {/* Interactive 3D Model Iframe (Bottom 4/5) */}
+          <div className="flex-1 w-[90vw] lg:w-[80vw] max-w-[1400px] relative cursor-grab active:cursor-grabbing overflow-hidden rounded-[2rem] border border-white/5 bg-white/5 backdrop-blur-sm z-10 shadow-[0_0_50px_rgba(0,0,0,0.5)] flex items-center justify-center group">
+            
+            {/* 
+              PRO UI TRICK: Sketchfab forces UI overlays (watermarks, controls) on free accounts. 
+              To completely hide them, we add overflow-hidden to the parent and make the iframe 
+              significantly larger than the wrapper. This physically crops out the top and bottom UI bars! 
+            */}
+            <iframe 
+              title="Professional DJ Controller" 
+              frameBorder="0" 
+              allowFullScreen 
+              mozallowfullscreen="true" 
+              webkitallowfullscreen="true" 
+              allow="autoplay; fullscreen; xr-spatial-tracking" 
+              xr-spatial-tracking="true" 
+              execution-while-out-of-viewport="true" 
+              execution-while-not-rendered="true" 
+              web-share="true" 
+              src="https://sketchfab.com/models/73ff0de3ac0346fbbbc5784d416080a1/embed?autostart=1&transparent=1&ui_infos=0&ui_watermark_link=0&ui_watermark=0&ui_hint=0&ui_theme=dark&dnt=1"
+              className="absolute top-[-90px] left-[-50px] w-[calc(100%+100px)] h-[calc(100%+180px)] z-20 pointer-events-auto"
+            ></iframe>
+            
+            {/* Interaction Hint Overlay (fades out on hover) */}
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 px-5 py-2.5 bg-black/80 backdrop-blur-md rounded-full border border-white/10 text-[9px] md:text-[10px] font-bold tracking-widest uppercase text-gray-300 pointer-events-none z-30 transition-opacity duration-500 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 shadow-[0_10px_20px_rgba(0,0,0,0.5)]">
+              Drag & Zoom to Explore
+            </div>
+          </div>
+            
         </section>
       </main>
     </div>
