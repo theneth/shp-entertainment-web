@@ -1,26 +1,5 @@
-import React, { useState, useEffect, Suspense, useRef } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { useGLTF, Environment, OrbitControls, Float, Preload, Center, Bounds } from '@react-three/drei';
+import React, { useState, useEffect } from 'react';
 import { Heart, Music, Users, Gem, Cake, Sparkles, Scissors, PartyPopper, ArrowRight } from 'lucide-react';
-
-// Custom DJ Deck Component for R3F
-function DJDeck(props) {
-  const { scene } = useGLTF('/pioneer_dj_console.glb')
-  const group = useRef()
-  
-  // Subtle cinematic auto-spin
-  useFrame((state, delta) => {
-    if (group.current) {
-      group.current.rotation.y -= delta * 0.1
-    }
-  })
-
-  return (
-    <group ref={group} {...props}>
-      <primitive object={scene} />
-    </group>
-  )
-}
 
 const services = [
   { name: 'Weddings', icon: Heart, span: 'col-span-2 md:col-span-2 lg:col-span-2' },
@@ -277,40 +256,23 @@ function App() {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[100vw] max-w-[1000px] max-h-[1000px] bg-blue-900/15 blur-[150px] rounded-full pointer-events-none z-0"></div>
 
             {/* Scaled Wrapper: This shrinks the 3D model down visually by 25% on desktop while maintaining the CSS crop hack! */}
-            {/* Native Three.js WebGL Render */}
-            <div className="w-full h-full relative z-10 scale-[1.1] md:scale-[0.85] lg:scale-[0.8] cursor-grab active:cursor-grabbing">
-              <Suspense fallback={
-                <div className="absolute inset-0 flex items-center justify-center text-white/50 animate-pulse font-bold tracking-[0.2em] text-xs">
-                  LOADING VAULT SYSTEM...
-                </div>
-              }>
-                <Canvas 
-                  camera={{ position: [0, 2, 5], fov: 45 }} 
-                  dpr={1} 
-                  gl={{ antialias: false, powerPreference: "high-performance", precision: "lowp" }}
-                >
-                  <ambientLight intensity={0.5} />
-                  <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} />
-                  
-                  {/* Lower resolution HDRI to save VRAM */}
-                  <Environment preset="studio" resolution={256} />
-                  
-                  {/* The actual Pioneer DJ Deck (Static, removed Float to save GPU cycles) */}
-                  <Center>
-                    <DJDeck scale={0.06} position={[0, -0.5, 0]} rotation={[0.2, Math.PI, 0]} />
-                  </Center>
-                  
-                  {/* Orbit controls for dragging/zooming */}
-                  <OrbitControls 
-                    makeDefault
-                    enablePan={false} 
-                    minDistance={1} 
-                    maxDistance={20}
-                    maxPolarAngle={Math.PI / 1.8}
-                  />
-                  <Preload all />
-                </Canvas>
-              </Suspense>
+            {/* Added overflow-hidden so the UI is physically chopped off BEFORE it gets scaled down! */}
+            <div className="w-full h-full relative scale-[1.1] md:scale-[0.8] lg:scale-[0.75] overflow-hidden rounded-[3rem]">
+              {/* CSS Cropped Iframe (Massive overhangs to completely hide Sketchfab UI) */}
+              <iframe 
+                title="Professional DJ Controller" 
+                frameBorder="0" 
+                allowFullScreen 
+                mozallowfullscreen="true" 
+                webkitallowfullscreen="true" 
+                allow="autoplay; fullscreen; xr-spatial-tracking" 
+                xr-spatial-tracking="true" 
+                execution-while-out-of-viewport="true" 
+                execution-while-not-rendered="true" 
+                web-share="true" 
+                src="https://sketchfab.com/models/73ff0de3ac0346fbbbc5784d416080a1/embed?autostart=1&transparent=1&ui_infos=0&ui_watermark_link=0&ui_watermark=0&ui_hint=0&ui_theme=dark&dnt=1&animation_autoplay=1&autospin=0.1"
+                className="absolute top-[-120px] left-[-80px] w-[calc(100%+160px)] h-[calc(100%+240px)] z-10 pointer-events-auto"
+              ></iframe>
             </div>
 
             {/* Fade gradients top and bottom */}
