@@ -247,50 +247,15 @@ function App() {
         </section>
 
         {/* TECH SHOWCASE SECTION (Section 4) */}
-        <section id="vault" className="w-full min-h-[100svh] bg-black text-white relative flex flex-col items-center pt-24 md:pt-28 pb-8 overflow-hidden border-t border-white/5">
+        <section id="vault" className="w-full min-h-[100svh] h-[100svh] bg-black text-white relative flex flex-col items-center justify-between overflow-hidden border-t border-white/5 py-24 md:py-32">
           
-          {/* Subtle Background Glow for the 3D Model */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] max-w-[800px] max-h-[800px] bg-blue-900/20 blur-[150px] rounded-full pointer-events-none z-0"></div>
+          {/* 3D Model Full Background (Absolute) */}
+          <div className="absolute inset-0 z-0 bg-black flex items-center justify-center cursor-grab active:cursor-grabbing">
+            
+            {/* Subtle Background Glow behind model */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[100vw] max-w-[1000px] max-h-[1000px] bg-blue-900/15 blur-[150px] rounded-full pointer-events-none z-0"></div>
 
-          {/* Header Text Content (Top 1/5) */}
-          <div className="flex-none flex flex-col items-center text-center w-full px-6 relative z-10 mb-8 md:mb-12">
-            <span className="flex items-center gap-3 text-[10px] md:text-xs font-black tracking-[0.5em] text-gray-400 uppercase mb-4">
-              <div className="w-6 md:w-10 h-px bg-gray-600"></div>
-              The Vault
-              <div className="w-6 md:w-10 h-px bg-gray-600"></div>
-            </span>
-            
-            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter leading-[0.9] mb-4">
-              Pro-Level <br className="md:hidden" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-600">Production</span>
-            </h2>
-            
-            <p className="text-sm md:text-base text-gray-400 max-w-2xl leading-relaxed font-medium mx-auto">
-              We don't just bring the music; we bring the club to you. Experience industry-leading sound systems and intelligent stage lighting setups.
-            </p>
-            
-            {/* Quick Stats */}
-            <div className="flex items-center gap-8 md:gap-16 mt-6">
-              <div className="flex flex-col items-center">
-                <span className="text-2xl md:text-3xl font-black">100%</span>
-                <span className="text-[8px] md:text-[9px] tracking-[0.2em] text-gray-500 uppercase mt-1 font-bold">Pioneer Gear</span>
-              </div>
-              <div className="w-px h-8 bg-gray-800"></div>
-              <div className="flex flex-col items-center">
-                <span className="text-2xl md:text-3xl font-black">8kW+</span>
-                <span className="text-[8px] md:text-[9px] tracking-[0.2em] text-gray-500 uppercase mt-1 font-bold">Sound Systems</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Interactive 3D Model Iframe (Bottom 4/5) */}
-          <div className="flex-1 w-[90vw] lg:w-[80vw] max-w-[1400px] relative cursor-grab active:cursor-grabbing overflow-hidden rounded-[2rem] border border-white/5 bg-white/5 backdrop-blur-sm z-10 shadow-[0_0_50px_rgba(0,0,0,0.5)] flex items-center justify-center group">
-            
-            {/* 
-              PRO UI TRICK: Sketchfab forces UI overlays (watermarks, controls) on free accounts. 
-              To completely hide them, we add overflow-hidden to the parent and make the iframe 
-              significantly larger than the wrapper. This physically crops out the top and bottom UI bars! 
-            */}
+            {/* CSS Cropped Iframe (Massive) */}
             <iframe 
               title="Professional DJ Controller" 
               frameBorder="0" 
@@ -303,11 +268,49 @@ function App() {
               execution-while-not-rendered="true" 
               web-share="true" 
               src="https://sketchfab.com/models/73ff0de3ac0346fbbbc5784d416080a1/embed?autostart=1&transparent=1&ui_infos=0&ui_watermark_link=0&ui_watermark=0&ui_hint=0&ui_theme=dark&dnt=1"
-              className="absolute top-[-90px] left-[-50px] w-[calc(100%+100px)] h-[calc(100%+180px)] z-20 pointer-events-auto"
+              className="absolute top-[-90px] left-[-50px] w-[calc(100%+100px)] h-[calc(100%+180px)] z-10 pointer-events-auto"
             ></iframe>
+
+            {/* Fade gradients top and bottom to smoothly blend the massive 3D space into the black section bounds */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black pointer-events-none z-20"></div>
+          </div>
+
+          {/* Foreground Text Content (Top) */}
+          <div className="relative z-30 flex flex-col items-center text-center w-full px-6 pointer-events-none mt-[2svh]">
+            <span className="flex items-center gap-3 text-[10px] md:text-xs font-black tracking-[0.5em] text-gray-400 uppercase mb-4 drop-shadow-md">
+              <div className="w-6 md:w-10 h-px bg-gray-500"></div>
+              The Vault
+              <div className="w-6 md:w-10 h-px bg-gray-500"></div>
+            </span>
             
-            {/* Interaction Hint Overlay (fades out on hover) */}
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 px-5 py-2.5 bg-black/80 backdrop-blur-md rounded-full border border-white/10 text-[9px] md:text-[10px] font-bold tracking-widest uppercase text-gray-300 pointer-events-none z-30 transition-opacity duration-500 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 shadow-[0_10px_20px_rgba(0,0,0,0.5)]">
+            <h2 className="text-4xl sm:text-5xl md:text-7xl font-black uppercase tracking-tighter leading-[0.9] mb-4 drop-shadow-2xl">
+              Pro-Level <br className="md:hidden" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-500">Production</span>
+            </h2>
+            
+            <p className="text-sm md:text-base text-gray-300 max-w-2xl leading-relaxed font-medium mx-auto drop-shadow-xl shadow-black">
+              We don't just bring the music; we bring the club to you. Experience industry-leading sound systems and intelligent stage lighting setups.
+            </p>
+          </div>
+
+          {/* Foreground Stats & Hint (Bottom) */}
+          <div className="relative z-30 flex flex-col items-center pointer-events-none mb-[2svh]">
+            
+            {/* Quick Stats in a floating glass pill */}
+            <div className="flex items-center gap-8 md:gap-16 bg-black/40 backdrop-blur-md px-8 py-4 rounded-full border border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.8)] mb-6">
+              <div className="flex flex-col items-center">
+                <span className="text-xl md:text-2xl font-black text-white">100%</span>
+                <span className="text-[8px] md:text-[9px] tracking-[0.2em] text-gray-400 uppercase mt-1 font-bold">Pioneer Gear</span>
+              </div>
+              <div className="w-px h-8 bg-gray-600"></div>
+              <div className="flex flex-col items-center">
+                <span className="text-xl md:text-2xl font-black text-white">8kW+</span>
+                <span className="text-[8px] md:text-[9px] tracking-[0.2em] text-gray-400 uppercase mt-1 font-bold">Sound Systems</span>
+              </div>
+            </div>
+
+            {/* Interaction Hint */}
+            <div className="px-5 py-2.5 bg-white/10 backdrop-blur-md rounded-full border border-white/10 text-[9px] md:text-[10px] font-bold tracking-widest uppercase text-gray-300 animate-pulse shadow-[0_0_20px_rgba(0,0,0,0.5)]">
               Drag & Zoom to Explore
             </div>
           </div>
