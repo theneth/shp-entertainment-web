@@ -245,6 +245,69 @@ function App() {
           </div>
             
         </section>
+
+        {/* TECH SHOWCASE SECTION (Section 4) */}
+        <section id="vault" className="w-full min-h-[100svh] bg-black text-white relative flex flex-col items-center justify-center overflow-hidden py-24 md:py-32 px-6 md:px-12 border-t border-white/5">
+          
+          {/* Subtle Background Glow for the 3D Model */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] max-w-[800px] max-h-[800px] bg-blue-900/20 blur-[120px] rounded-full pointer-events-none"></div>
+
+          <div className="w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20 relative z-10">
+            
+            {/* Text Content */}
+            <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left w-full">
+              <span className="flex items-center gap-3 text-[10px] md:text-xs font-black tracking-[0.5em] text-gray-400 uppercase mb-4 md:mb-6">
+                <div className="w-8 h-px bg-gray-600 lg:hidden"></div>
+                The Vault
+                <div className="w-8 lg:w-12 h-px bg-gray-600"></div>
+              </span>
+              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter leading-[0.9] mb-6">
+                Pro-Level <br className="hidden sm:block" />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-600">Production</span>
+              </h2>
+              <p className="text-sm md:text-base text-gray-400 max-w-md leading-relaxed font-medium mb-8">
+                We don't just bring the music; we bring the club to you. Experience industry-leading sound systems and intelligent stage lighting setups.
+              </p>
+              
+              <div className="flex gap-8 md:gap-12">
+                <div className="flex flex-col">
+                  <span className="text-2xl md:text-4xl font-black">100%</span>
+                  <span className="text-[9px] md:text-[10px] tracking-[0.2em] text-gray-500 uppercase mt-1 font-bold">Pioneer Gear</span>
+                </div>
+                <div className="w-px h-auto bg-gray-800"></div>
+                <div className="flex flex-col">
+                  <span className="text-2xl md:text-4xl font-black">8kW+</span>
+                  <span className="text-[9px] md:text-[10px] tracking-[0.2em] text-gray-500 uppercase mt-1 font-bold">Sound Systems</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Interactive 3D Model Iframe */}
+            <div className="flex-1 w-full flex justify-center items-center h-[50svh] lg:h-[70svh] relative mt-8 lg:mt-0 cursor-grab active:cursor-grabbing">
+              {/* Added CSS trick params to Sketchfab URL: autostart=1, transparent=1, and hiding UI */}
+              <iframe 
+                title="Professional DJ Controller" 
+                frameBorder="0" 
+                allowFullScreen 
+                mozallowfullscreen="true" 
+                webkitallowfullscreen="true" 
+                allow="autoplay; fullscreen; xr-spatial-tracking" 
+                xr-spatial-tracking="true" 
+                execution-while-out-of-viewport="true" 
+                execution-while-not-rendered="true" 
+                web-share="true" 
+                src="https://sketchfab.com/models/73ff0de3ac0346fbbbc5784d416080a1/embed?autostart=1&transparent=1&ui_infos=0&ui_watermark_link=0&ui_watermark=0&ui_hint=0&ui_theme=dark&dnt=1"
+                className="w-full h-full scale-[1.1] md:scale-[1.2] relative z-20"
+              ></iframe>
+              
+              {/* Interaction Hint Overlay (fades out on hover) */}
+              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 px-4 py-2 bg-black/60 backdrop-blur-md rounded-full border border-white/10 text-[9px] font-bold tracking-widest uppercase text-gray-400 pointer-events-none z-30 transition-opacity duration-500 opacity-100 lg:opacity-0 lg:group-hover:opacity-100">
+                Drag to Rotate 3D Model
+              </div>
+            </div>
+            
+          </div>
+        </section>
       </main>
     </div>
   );
