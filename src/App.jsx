@@ -123,50 +123,52 @@ function App() {
         </section>
 
         {/* EXPERIENCES SECTION */}
-        <section id="experiences" className="w-full h-[100svh] bg-white text-black py-6 md:py-10 px-4 md:px-8 flex flex-col justify-center items-center overflow-hidden">
-          <div className="max-w-7xl w-full mx-auto flex flex-col items-center h-full justify-center">
+        <section id="experiences" className="w-full h-[100svh] bg-white text-black pt-20 pb-8 md:pt-24 md:pb-10 px-4 md:px-8 flex flex-col items-center overflow-hidden">
+          <div className="max-w-7xl w-full mx-auto flex flex-col items-center h-full">
             
-            {/* Section Header */}
-            <div className="text-center mb-6 md:mb-10 w-full flex flex-col items-center">
+            {/* Section Header (Fixed Height) */}
+            <div className="flex-none text-center mb-6 md:mb-8 w-full flex flex-col items-center">
               <span className="flex items-center gap-2 md:gap-3 text-[9px] md:text-xs font-black tracking-[0.4em] md:tracking-[0.5em] text-gray-400 uppercase mb-2 md:mb-4">
                 <div className="w-6 md:w-10 h-px bg-gray-300"></div>
                 Our Expertise
                 <div className="w-6 md:w-10 h-px bg-gray-300"></div>
               </span>
-              <h2 className="text-3xl min-[400px]:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter leading-[0.9] drop-shadow-sm">
+              <h2 className="text-3xl min-[400px]:text-4xl sm:text-5xl md:text-6xl font-black uppercase tracking-tighter leading-[0.9] drop-shadow-sm">
                 Curated <br className="md:hidden" /> Experiences
               </h2>
             </div>
             
-            {/* Mobile-First Bento Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4 w-full flex-shrink">
+            {/* Mobile-First Bento Grid (Fluid Height, shrinks to fit remaining space) */}
+            <div className="flex-1 min-h-0 w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4 auto-rows-fr">
               {services.map((service, index) => (
                 <div 
                   key={index} 
-                  className={`group relative overflow-hidden flex flex-col items-center justify-center p-3 md:p-5 min-h-[110px] sm:min-h-[140px] md:min-h-[160px] lg:min-h-[180px] bg-white hover:bg-black hover:text-white rounded-2xl md:rounded-3xl transition-all duration-500 cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-2xl border border-gray-100 ${service.span}`}
+                  className={`group relative overflow-hidden flex flex-col items-center justify-center p-2 bg-white hover:bg-black hover:text-white rounded-2xl md:rounded-3xl transition-all duration-500 cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-2xl border border-gray-100 h-full w-full ${service.span}`}
                 >
                   {/* Subtle background glow on hover */}
                   <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                   
-                  <service.icon className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 mb-2 md:mb-4 stroke-[1.5] text-black group-hover:text-white group-hover:scale-110 group-hover:-translate-y-1 md:group-hover:-translate-y-2 transition-all duration-500 relative z-10" />
+                  <service.icon className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 mb-2 md:mb-3 stroke-[1.5] text-black group-hover:text-white group-hover:scale-110 group-hover:-translate-y-1 md:group-hover:-translate-y-2 transition-all duration-500 relative z-10" />
                   
-                  <h3 className="text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-widest text-center relative z-10 group-hover:-translate-y-1 md:group-hover:-translate-y-2 transition-all duration-500">
+                  <h3 className="text-[9px] sm:text-[10px] md:text-xs font-bold uppercase tracking-widest text-center relative z-10 group-hover:-translate-y-1 md:group-hover:-translate-y-2 transition-all duration-500">
                     {service.name}
                   </h3>
                   
                   {/* Arrow Indicator that slides up on hover */}
-                  <div className="absolute bottom-2 md:bottom-4 opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 text-gray-400">
+                  <div className="absolute bottom-2 opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 text-gray-400">
                     <ArrowRight className="w-3 h-3 md:w-4 md:h-4" />
                   </div>
                 </div>
               ))}
             </div>
             
-            {/* CTA Button */}
-            <button className="mt-8 md:mt-12 group flex items-center gap-3 bg-black text-white px-6 md:px-10 py-3 md:py-4 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest hover:scale-105 transition-transform duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.2)]">
-              Explore All
-              <ArrowRight className="w-3 h-3 md:w-4 md:h-4 group-hover:translate-x-1 transition-transform" />
-            </button>
+            {/* CTA Button (Fixed Height) */}
+            <div className="flex-none mt-6 md:mt-8">
+              <button className="group flex items-center gap-3 bg-black text-white px-6 md:px-10 py-3 md:py-4 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest hover:scale-105 transition-transform duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.2)]">
+                Explore All
+                <ArrowRight className="w-3 h-3 md:w-4 md:h-4 group-hover:translate-x-1 transition-transform" />
+              </button>
+            </div>
             
           </div>
         </section>
