@@ -23,3 +23,18 @@
     transform: translateX(-100%);
   }
 }
+
+@utility animate-marquee-reverse {
+  animation: marquee-reverse 30s linear infinite;
+  display: flex;
+  width: max-content;
+}
+
+@keyframes marquee-reverse {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
