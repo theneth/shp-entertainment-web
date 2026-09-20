@@ -270,7 +270,7 @@ function App() {
                 execution-while-out-of-viewport="true" 
                 execution-while-not-rendered="true" 
                 web-share="true" 
-                src="https://sketchfab.com/models/73ff0de3ac0346fbbbc5784d416080a1/embed?autostart=1&transparent=1&ui_infos=0&ui_watermark_link=0&ui_watermark=0&ui_hint=0&ui_theme=dark&dnt=1&animation_autoplay=0&camera=0&ui_animations=0"
+                src="https://sketchfab.com/models/73ff0de3ac0346fbbbc5784d416080a1/embed?autostart=1&transparent=1&ui_infos=0&ui_watermark_link=0&ui_watermark=0&ui_hint=0&ui_theme=dark&dnt=1&animation_autoplay=1&autospin=0.1"
                 className="absolute top-[-120px] left-[-80px] w-[calc(100%+160px)] h-[calc(100%+240px)] z-10 pointer-events-auto"
               ></iframe>
             </div>
