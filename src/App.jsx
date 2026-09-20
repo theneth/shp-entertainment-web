@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Suspense, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { useGLTF, Environment, OrbitControls, Float, Preload } from '@react-three/drei';
+import { useGLTF, Environment, OrbitControls, Float, Preload, Center, Bounds } from '@react-three/drei';
 import { Heart, Music, Users, Gem, Cake, Sparkles, Scissors, PartyPopper, ArrowRight } from 'lucide-react';
 
 // Custom DJ Deck Component for R3F
@@ -284,7 +284,7 @@ function App() {
                   LOADING VAULT SYSTEM...
                 </div>
               }>
-                <Canvas camera={{ position: [0, 2, 5], fov: 45 }}>
+                <Canvas camera={{ position: [0, 2, 5], fov: 45 }} dpr={[1, 1.5]}>
                   <ambientLight intensity={0.5} />
                   <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} />
                   
@@ -292,7 +292,7 @@ function App() {
                   <Environment preset="studio" />
                   
                   {/* The actual Pioneer DJ Deck wrapped in Bounds to perfectly auto-zoom the camera */}
-                  <Bounds fit clip observe margin={1.2}>
+                  <Bounds fit margin={1.2}>
                     <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
                       <Center>
                         <DJDeck scale={1} rotation={[0.2, Math.PI, 0]} />
