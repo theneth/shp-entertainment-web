@@ -22,6 +22,31 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Helper to render cards consistently across mobile and desktop
+  const renderCard = (service, isMobile = false, index = 0) => (
+    <div 
+      key={`${service.name}-${index}`} 
+      className={`group/card relative overflow-hidden flex flex-col items-center justify-center flex-shrink-0 bg-white hover:bg-black hover:text-white transition-all duration-500 cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-2xl border border-gray-100 ${
+        isMobile ? 'w-[220px] h-[160px] rounded-2xl mr-4' : 'w-[350px] lg:w-[450px] h-[280px] lg:h-[350px] rounded-[2rem] mr-8'
+      }`}
+    >
+      <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500"></div>
+      <service.icon className={`stroke-[1.5] text-black group-hover/card:text-white group-hover/card:scale-110 group-hover/card:-translate-y-2 transition-all duration-500 relative z-10 ${
+        isMobile ? 'w-8 h-8 mb-3' : 'w-14 h-14 lg:w-16 lg:h-16 mb-6'
+      }`} />
+      <h3 className={`font-bold uppercase tracking-widest text-center relative z-10 group-hover/card:-translate-y-2 transition-all duration-500 ${
+        isMobile ? 'text-[10px] sm:text-xs' : 'text-sm lg:text-base'
+      }`}>
+        {service.name}
+      </h3>
+      <div className={`absolute opacity-0 transform translate-y-4 group-hover/card:opacity-100 group-hover/card:translate-y-0 transition-all duration-500 text-gray-400 ${
+        isMobile ? 'bottom-4' : 'bottom-8'
+      }`}>
+        <ArrowRight className={isMobile ? 'w-4 h-4' : 'w-5 h-5'} />
+      </div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-black text-white font-sans overflow-x-hidden flex flex-col">
       
@@ -137,66 +162,55 @@ function App() {
             </h2>
           </div>
           
-          {/* Infinite Marquee Rail (2 Rows) */}
-          <div className="flex-1 w-full flex flex-col items-center justify-center gap-4 md:gap-8 relative overflow-hidden group">
+          {/* Infinite Marquee Rails (Responsive) */}
+          <div className="flex-1 w-full flex flex-col items-center justify-center relative overflow-hidden group">
             
             {/* Fade Gradients for smooth entrance/exit */}
             <div className="absolute left-0 top-0 bottom-0 w-16 md:w-48 bg-gradient-to-r from-white to-transparent z-20 pointer-events-none"></div>
             <div className="absolute right-0 top-0 bottom-0 w-16 md:w-48 bg-gradient-to-l from-white to-transparent z-20 pointer-events-none"></div>
 
-            {/* Row 1: Scrolls Left */}
-            <div className="flex flex-nowrap w-full">
-              {[...Array(6)].map((_, trackIndex) => (
+            {/* ----------------- DESKTOP: SINGLE RAIL ----------------- */}
+            <div className="hidden md:flex flex-nowrap w-full">
+              {[...Array(4)].map((_, trackIndex) => (
                 <div 
-                  key={`row1-${trackIndex}`} 
+                  key={`desktop-${trackIndex}`} 
                   className="flex flex-nowrap animate-marquee shrink-0 group-hover:[animation-play-state:paused]"
                   aria-hidden={trackIndex > 0 ? "true" : "false"}
                 >
-                  {services.slice(0, 4).map((service, index) => (
-                    <div 
-                      key={index} 
-                      className="group/card relative overflow-hidden flex flex-col items-center justify-center w-[220px] md:w-[350px] lg:w-[400px] h-[160px] md:h-[220px] lg:h-[260px] flex-shrink-0 bg-white hover:bg-black hover:text-white rounded-2xl md:rounded-3xl transition-all duration-500 cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-2xl border border-gray-100 mr-4 md:mr-8"
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500"></div>
-                      <service.icon className="w-8 h-8 md:w-14 md:h-14 mb-3 md:mb-6 stroke-[1.5] text-black group-hover/card:text-white group-hover/card:scale-110 group-hover/card:-translate-y-2 transition-all duration-500 relative z-10" />
-                      <h3 className="text-xs md:text-sm font-bold uppercase tracking-widest text-center relative z-10 group-hover/card:-translate-y-2 transition-all duration-500">
-                        {service.name}
-                      </h3>
-                      <div className="absolute bottom-4 md:bottom-8 opacity-0 transform translate-y-4 group-hover/card:opacity-100 group-hover/card:translate-y-0 transition-all duration-500 text-gray-400">
-                        <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
-                      </div>
-                    </div>
-                  ))}
+                  {services.map((service, index) => renderCard(service, false, index))}
                 </div>
               ))}
             </div>
 
-            {/* Row 2: Scrolls Right */}
-            <div className="flex flex-nowrap w-full">
-              {[...Array(6)].map((_, trackIndex) => (
-                <div 
-                  key={`row2-${trackIndex}`} 
-                  className="flex flex-nowrap animate-marquee-reverse shrink-0 group-hover:[animation-play-state:paused]"
-                  aria-hidden={trackIndex > 0 ? "true" : "false"}
-                >
-                  {services.slice(4, 8).map((service, index) => (
-                    <div 
-                      key={index} 
-                      className="group/card relative overflow-hidden flex flex-col items-center justify-center w-[220px] md:w-[350px] lg:w-[400px] h-[160px] md:h-[220px] lg:h-[260px] flex-shrink-0 bg-white hover:bg-black hover:text-white rounded-2xl md:rounded-3xl transition-all duration-500 cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-2xl border border-gray-100 mr-4 md:mr-8"
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500"></div>
-                      <service.icon className="w-8 h-8 md:w-14 md:h-14 mb-3 md:mb-6 stroke-[1.5] text-black group-hover/card:text-white group-hover/card:scale-110 group-hover/card:-translate-y-2 transition-all duration-500 relative z-10" />
-                      <h3 className="text-xs md:text-sm font-bold uppercase tracking-widest text-center relative z-10 group-hover/card:-translate-y-2 transition-all duration-500">
-                        {service.name}
-                      </h3>
-                      <div className="absolute bottom-4 md:bottom-8 opacity-0 transform translate-y-4 group-hover/card:opacity-100 group-hover/card:translate-y-0 transition-all duration-500 text-gray-400">
-                        <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ))}
+            {/* ----------------- MOBILE: DOUBLE RAIL ----------------- */}
+            <div className="flex md:hidden flex-col gap-4 w-full">
+              {/* Mobile Row 1: Scrolls Left */}
+              <div className="flex flex-nowrap w-full">
+                {[...Array(6)].map((_, trackIndex) => (
+                  <div 
+                    key={`mob1-${trackIndex}`} 
+                    className="flex flex-nowrap animate-marquee shrink-0 group-hover:[animation-play-state:paused]"
+                    aria-hidden={trackIndex > 0 ? "true" : "false"}
+                  >
+                    {services.slice(0, 4).map((service, index) => renderCard(service, true, index))}
+                  </div>
+                ))}
+              </div>
+
+              {/* Mobile Row 2: Scrolls Right */}
+              <div className="flex flex-nowrap w-full">
+                {[...Array(6)].map((_, trackIndex) => (
+                  <div 
+                    key={`mob2-${trackIndex}`} 
+                    className="flex flex-nowrap animate-marquee-reverse shrink-0 group-hover:[animation-play-state:paused]"
+                    aria-hidden={trackIndex > 0 ? "true" : "false"}
+                  >
+                    {services.slice(4, 8).map((service, index) => renderCard(service, true, index + 4))}
+                  </div>
+                ))}
+              </div>
             </div>
+
           </div>
           
           {/* CTA Button (Fixed Height) */}
