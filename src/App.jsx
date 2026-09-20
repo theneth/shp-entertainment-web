@@ -1,18 +1,5 @@
-import React, { useState, useEffect, Suspense, useRef } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { useGLTF, Environment, OrbitControls, Center, Preload } from '@react-three/drei';
+import React, { useState, useEffect } from 'react';
 import { Heart, Music, Users, Gem, Cake, Sparkles, Scissors, PartyPopper, ArrowRight } from 'lucide-react';
-
-// Custom DJ Deck Component for R3F
-function DJDeck(props) {
-  // Using the new Drago-compressed, highly optimized file
-  const { scene } = useGLTF('/pioneer_dj_console_opt.glb')
-  return (
-    <group {...props}>
-      <primitive object={scene} />
-    </group>
-  )
-}
 
 const services = [
   { name: 'Weddings', icon: Heart, span: 'col-span-2 md:col-span-2 lg:col-span-2' },
@@ -260,91 +247,60 @@ function App() {
         </section>
 
         {/* TECH SHOWCASE SECTION (Section 4) */}
-        <section id="vault" className="w-full min-h-[100svh] h-[100svh] bg-black text-white relative flex flex-col md:block items-center justify-between overflow-hidden border-t border-white/5 py-24 md:py-0">
+        <section id="vault" className="w-full min-h-[100svh] relative flex items-center justify-center overflow-hidden">
           
-          {/* 3D Model Center Stage (Scaled down to feel "Zoomed Out") */}
-          <div className="absolute inset-0 z-0 bg-black flex items-center justify-center cursor-grab active:cursor-grabbing">
-            
-            {/* Subtle Background Glow behind model */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[100vw] max-w-[1000px] max-h-[1000px] bg-blue-900/15 blur-[150px] rounded-full pointer-events-none z-0"></div>
+          {/* Cinematic Video Background */}
+          <div className="absolute inset-0 z-0 bg-black">
+            <video 
+              autoPlay 
+              muted 
+              loop 
+              playsInline
+              className="w-full h-full object-cover opacity-80"
+            >
+              <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_135039_b04d00db-6ee2-4e2a-a7f5-b2dfd3d24fd2.mp4" type="video/mp4" />
+            </video>
+            {/* Advanced Overlay Gradients for Depth and Text Legibility */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-black/80 z-10"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/50 z-10"></div>
+          </div>
 
-            {/* Native Three.js WebGL Render (Optimized) */}
-            <div className="absolute inset-0 w-full h-full z-10 cursor-grab active:cursor-grabbing">
-              <Suspense fallback={
-                <div className="absolute inset-0 flex items-center justify-center text-white/50 animate-pulse font-bold tracking-[0.2em] text-xs">
-                  LOADING VAULT SYSTEM...
+          {/* Foreground Modern UI Layout */}
+          <div className="container mx-auto px-6 md:px-12 relative z-20 flex flex-col md:flex-row items-center justify-between gap-12 mt-12 md:mt-0">
+            
+            {/* Left Side: Main Typography */}
+            <div className="flex flex-col items-center md:items-start text-center md:text-left w-full md:w-1/2">
+              <span className="flex items-center gap-3 text-[10px] md:text-xs font-black tracking-[0.5em] text-white/70 uppercase mb-4 drop-shadow-md">
+                <div className="w-6 md:w-10 h-px bg-white/40"></div>
+                The Vault
+                <div className="w-6 md:w-10 h-px bg-white/40 hidden md:block"></div>
+              </span>
+              
+              <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-[6rem] font-black uppercase tracking-tighter leading-[0.9] mb-6 drop-shadow-[0_10px_10px_rgba(0,0,0,0.8)]">
+                Pro-Level <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/40">Production</span>
+              </h2>
+              
+              <p className="text-sm md:text-base text-gray-300 max-w-lg leading-relaxed font-medium drop-shadow-xl">
+                We don't just bring the music; we bring the club to you. Experience industry-leading sound systems and intelligent stage lighting setups engineered for flawless performance.
+              </p>
+            </div>
+
+            {/* Right Side: Glassmorphism Stats Card */}
+            <div className="w-full md:w-auto">
+              <div className="flex flex-col gap-8 bg-white/5 backdrop-blur-xl px-10 py-12 rounded-[2rem] border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+                <div className="flex flex-col items-center md:items-start">
+                  <span className="text-4xl md:text-5xl font-black text-white drop-shadow-lg">100%</span>
+                  <span className="text-[9px] md:text-[10px] tracking-[0.3em] text-blue-400 uppercase mt-2 font-bold">Pioneer Gear</span>
                 </div>
-              }>
-                <Canvas 
-                  camera={{ position: [0, 1.5, 3], fov: 35 }} 
-                  dpr={1} 
-                  gl={{ antialias: false, powerPreference: "high-performance", precision: "lowp" }}
-                >
-                  <ambientLight intensity={0.5} />
-                  <spotLight position={[0, 5, 5]} angle={0.5} penumbra={1} intensity={1} />
-                  <spotLight position={[-5, 5, -5]} angle={0.5} penumbra={1} intensity={0.5} />
-                  
-                  {/* Lower resolution HDRI to save VRAM */}
-                  <Environment preset="studio" resolution={256} />
-                  
-                  {/* DJ Deck positioned to bring the LCD Screen directly into view */}
-                  <DJDeck scale={0.2} position={[0, -0.5, 1]} rotation={[0.4, 0, 0]} />
-                  
-                  {/* Orbit controls for precise framing */}
-                  <OrbitControls 
-                    makeDefault
-                    enablePan={true}
-                    enableZoom={true}
-                    minDistance={0.5} 
-                    maxDistance={10}
-                  />
-                  <Preload all />
-                </Canvas>
-              </Suspense>
-            </div>
-
-            {/* Fade gradients top and bottom */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black pointer-events-none z-20"></div>
-          </div>
-
-          {/* Foreground Text Content (Left Side on Desktop, Top on Mobile) */}
-          <div className="relative md:absolute md:left-8 lg:left-12 xl:left-24 md:top-1/2 md:-translate-y-1/2 z-30 flex flex-col items-center md:items-start text-center md:text-left w-full md:w-[350px] lg:w-[420px] px-6 md:px-0 pointer-events-none mt-[2svh] md:mt-0">
-            <span className="flex items-center gap-3 text-[10px] md:text-xs font-black tracking-[0.5em] text-gray-400 uppercase mb-4 drop-shadow-md">
-              <div className="w-6 md:w-10 h-px bg-gray-500"></div>
-              The Vault
-              <div className="w-6 md:w-10 h-px bg-gray-500 hidden md:block"></div>
-            </span>
-            
-            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-[5rem] font-black uppercase tracking-tighter leading-[0.9] mb-4 md:mb-6 drop-shadow-2xl">
-              Pro-Level <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-500">Production</span>
-            </h2>
-            
-            <p className="text-sm md:text-base text-gray-300 max-w-2xl md:max-w-none leading-relaxed font-medium drop-shadow-xl shadow-black">
-              We don't just bring the music; we bring the club to you. Experience industry-leading sound systems and intelligent stage lighting setups.
-            </p>
-          </div>
-
-          {/* Foreground Stats & Hint (Right Side on Desktop, Bottom on Mobile) */}
-          <div className="relative md:absolute md:right-8 lg:right-12 xl:right-24 md:top-1/2 md:-translate-y-1/2 z-30 flex flex-col items-center md:items-end pointer-events-none mb-[2svh] md:mb-0 mt-auto md:mt-0">
-            
-            {/* Quick Stats in a floating glass pill (Vertical on desktop, horizontal on mobile) */}
-            <div className="flex md:flex-col items-center md:items-end gap-8 md:gap-6 bg-black/40 backdrop-blur-md px-8 md:px-6 py-4 md:py-8 rounded-full md:rounded-[2rem] border border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.8)] mb-6 md:mb-8 text-center md:text-right">
-              <div className="flex flex-col items-center md:items-end">
-                <span className="text-xl md:text-3xl font-black text-white">100%</span>
-                <span className="text-[8px] md:text-[9px] tracking-[0.2em] text-gray-400 uppercase mt-1 md:mt-2 font-bold">Pioneer Gear</span>
-              </div>
-              <div className="w-px md:w-8 h-8 md:h-px bg-gray-600"></div>
-              <div className="flex flex-col items-center md:items-end">
-                <span className="text-xl md:text-3xl font-black text-white">8kW+</span>
-                <span className="text-[8px] md:text-[9px] tracking-[0.2em] text-gray-400 uppercase mt-1 md:mt-2 font-bold">Sound Systems</span>
+                <div className="w-full h-px bg-white/10"></div>
+                <div className="flex flex-col items-center md:items-start">
+                  <span className="text-4xl md:text-5xl font-black text-white drop-shadow-lg">8kW+</span>
+                  <span className="text-[9px] md:text-[10px] tracking-[0.3em] text-blue-400 uppercase mt-2 font-bold">Sound Systems</span>
+                </div>
               </div>
             </div>
-
-            {/* Interaction Hint */}
-            <div className="px-5 py-2.5 bg-white/10 backdrop-blur-md rounded-full border border-white/10 text-[9px] md:text-[10px] font-bold tracking-widest uppercase text-gray-300 animate-pulse shadow-[0_0_20px_rgba(0,0,0,0.5)]">
-              Drag & Zoom to Explore
-            </div>
+            
           </div>
             
         </section>
