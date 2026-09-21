@@ -260,84 +260,61 @@ function App() {
             >
               <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_135039_b04d00db-6ee2-4e2a-a7f5-b2dfd3d24fd2.mp4" type="video/mp4" />
             </video>
-            {/* Subtle base gradient for contrast */}
-            <div className="absolute inset-0 bg-black/20"></div>
+            <div className="absolute inset-0 bg-black/10"></div>
           </div>
 
-          {/* SVG Mask Definition (Bulletproof cross-browser cutout) */}
+          {/* SVG Mask Definition: Cuts PRO-LEVEL PRODUCTION on one responsive line */}
           <svg className="absolute w-0 h-0 pointer-events-none">
             <defs>
               <style>{`
-                .mask-txt { x: 1.5rem; y: 6rem; font-size: 25vw; }
-                .mask-tspan { x: 1.5rem; }
+                .mask-txt { x: 1.5rem; y: 35vh; font-size: 8vw; }
                 @media (min-width: 768px) {
-                  .mask-txt { x: 3rem; y: 8rem; font-size: 15vw; }
-                  .mask-tspan { x: 3rem; }
+                  .mask-txt { x: 3rem; y: 40vh; font-size: 3.5vw; }
                 }
               `}</style>
               <mask id="knockout-mask">
-                {/* White rectangle keeps the frosted glass intact everywhere... */}
+                {/* White rectangle keeps the frosted glass intact */}
                 <rect width="100%" height="100%" fill="white" />
-                {/* ...except where this black text renders, punching a perfect transparent hole */}
+                {/* Black text cuts the transparent hole */}
                 <text 
-                  dominantBaseline="hanging" 
+                  dominantBaseline="middle" 
                   fill="black" 
                   fontFamily="system-ui, -apple-system, sans-serif"
                   fontWeight="900"
                   textTransform="uppercase"
-                  letterSpacing="-0.05em"
+                  letterSpacing="-0.02em"
                   className="mask-txt"
                 >
-                  <tspan dy="0" className="mask-tspan">PRO-</tspan>
-                  <tspan dy="0.75em" className="mask-tspan">LEVEL</tspan>
+                  PRO-LEVEL PRODUCTION
                 </text>
               </mask>
             </defs>
           </svg>
 
-          {/* Layer 1: Frosted Glass Wall (Masked) */}
+          {/* Left Half: Frosted Glass Wall (Masked to punch out the main text) */}
           <div 
-            className="absolute inset-y-0 left-0 w-full md:w-[45%] backdrop-blur-[30px] md:backdrop-blur-[50px] bg-[#050505]/60 border-r border-white/10 z-10 pointer-events-none"
+            className="absolute inset-y-0 left-0 w-full md:w-1/2 backdrop-blur-[30px] md:backdrop-blur-[50px] bg-[#050505]/60 border-r border-white/10 z-10 pointer-events-none"
             style={{ 
               mask: 'url(#knockout-mask)',
               WebkitMask: 'url(#knockout-mask)'
             }}
           ></div>
 
-          {/* Layer 2: Bottom Left Content (Sits cleanly on top of the wall) */}
-          <div className="absolute bottom-12 md:bottom-20 left-6 md:left-12 w-[calc(100%-3rem)] max-w-sm z-30 pointer-events-auto">
-            <span className="flex items-center gap-4 text-[9px] font-bold tracking-[0.4em] text-white/50 uppercase mb-6">
+          {/* Other Texts (Bottom of glass part, NOT cut out) */}
+          <div className="absolute bottom-12 md:bottom-20 left-6 md:left-12 w-[calc(100%-3rem)] md:w-[45%] max-w-lg z-30 pointer-events-auto">
+            <span className="flex items-center gap-4 text-[9px] md:text-xs font-bold tracking-[0.4em] text-white/50 uppercase mb-6">
               The Vault
               <div className="w-12 h-px bg-white/30"></div>
             </span>
             
-            <p className="text-sm md:text-base text-gray-200 leading-relaxed font-medium">
+            <p className="text-sm md:text-base text-gray-200 leading-relaxed font-medium drop-shadow-md">
               We don't just bring the music; we bring the club to you. Experience industry-leading sound systems and intelligent stage lighting setups engineered for flawless performance.
             </p>
 
-            {/* Minimalist Accents / Links similar to the reference */}
-            <div className="mt-10 flex gap-8 text-[9px] tracking-widest text-white/40 uppercase font-bold">
+            <div className="mt-10 flex gap-8 text-[9px] md:text-xs tracking-widest text-white/40 uppercase font-bold">
               <span className="hover:text-white cursor-pointer transition-colors">+ Explore</span>
               <span className="hover:text-white cursor-pointer transition-colors">+ Tech Specs</span>
             </div>
-          </div>
-
-          {/* Layer 3: Foreground Typography (Right Side) */}
-          <div className="absolute bottom-12 md:bottom-20 right-6 md:right-12 z-30 pointer-events-none">
-            <h2 className="text-[14vw] md:text-[9vw] font-black uppercase tracking-tighter leading-none text-white drop-shadow-2xl text-right">
-              Production
-            </h2>
-          </div>
-
-          {/* UI Accents (Crosshairs & Dots) matching reference aesthetic */}
-          <div className="absolute top-12 right-12 z-30 text-white/20 hidden md:block">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1"><path d="M12 2v20M2 12h20"/></svg>
-          </div>
-          <div className="absolute top-1/3 right-1/4 z-30 hidden md:block">
-            <div className="w-2 h-2 bg-red-500/80 rounded-full shadow-[0_0_10px_rgba(239,68,68,0.8)]"></div>
-          </div>
-          <div className="absolute bottom-1/3 right-12 z-30 text-white/20 hidden md:block">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1"><path d="M12 2v20M2 12h20"/></svg>
           </div>
           
         </section>
