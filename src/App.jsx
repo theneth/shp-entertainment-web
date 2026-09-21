@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Heart, Music, Users, Gem, Cake, Sparkles, Scissors, PartyPopper, ArrowRight } from 'lucide-react';
 
 const services = [
@@ -38,15 +38,70 @@ function App() {
     return () => window.removeEventListener('resize', updateDimensions);
   }, []);
 
-  // Listen to scroll to change navbar theme
+
+  const overlayRef = useRef(null);
+  const zoomLetterRef = useRef(null);
+  const section2InnerRef = useRef(null);
+
+  // Cinematic 60fps Scroll Transition Logic
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      // Toggle theme when scrolling past 90% of the viewport height (the hero section)
+      // Navbar theme
       setIsScrolled(window.scrollY > window.innerHeight * 0.9);
+      
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          const wh = window.innerHeight;
+          
+          // FADE BLACK OVERLAY (0 to 40vh)
+          let fadeProgress = scrollY / (wh * 0.4);
+          fadeProgress = Math.max(0, Math.min(1, fadeProgress));
+          if (overlayRef.current) {
+            overlayRef.current.style.opacity = fadeProgress;
+          }
+          
+          // ZOOM "O" LETTER (20vh to 100vh)
+          const zoomStart = wh * 0.2;
+          const zoomEnd = wh * 1.0;
+          let zoomProgress = (scrollY - zoomStart) / (zoomEnd - zoomStart);
+          zoomProgress = Math.max(0, Math.min(1, zoomProgress));
+          
+          if (zoomLetterRef.current) {
+            // Cubic easing for cinematic dramatic zoom
+            const scale = 1 + Math.pow(zoomProgress * 30, 3);
+            zoomLetterRef.current.style.transform = `scale(${scale})`;
+            zoomLetterRef.current.style.opacity = zoomProgress > 0.01 ? Math.min(1, zoomProgress * 10) : 0;
+          }
+          
+          // SCROLL-LINKED CINEMATIC FLICKER (Section 2 Reveal - triggers as section 2 scrolls into view)
+          if (section2InnerRef.current) {
+             const sec2Top = wh * 1.0; // Section 2 starts coming into view after 100vh
+             if (scrollY > sec2Top + wh * 0.5) {
+                 section2InnerRef.current.style.opacity = 1;
+             } else if (scrollY > sec2Top) {
+                 // Jitter as it scrolls in
+                 const p = (scrollY - sec2Top) / (wh * 0.5);
+                 let jitter = (Math.sin(p * 80) + Math.cos(p * 55) + Math.sin(p * 120)) / 3;
+                 jitter = (jitter + 1) / 2;
+                 section2InnerRef.current.style.opacity = p > 0.8 ? 1 : jitter * (p + 0.2);
+             } else {
+                 section2InnerRef.current.style.opacity = 0;
+             }
+          }
+
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    // Initial call
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
 
   // Helper to render cards consistently across mobile and desktop
   const renderCard = (service, isMobile = false, index = 0) => (
@@ -123,7 +178,14 @@ function App() {
       <main className="flex-grow">
         
         {/* HERO SECTION */}
-        <section id="home" className="relative w-full h-[100svh] flex flex-col items-center justify-center overflow-hidden pt-20">
+        
+        {/* SCROLL-LINKED TRANSITION CONTAINER */}
+        <div className="relative w-full h-[200vh] bg-black">
+          {/* STICKY VIEWPORT */}
+          <div className="sticky top-0 w-full h-[100vh] overflow-hidden z-30">
+            
+            {/* HERO SECTION */}
+            <section id="home" className="absolute inset-0 w-full h-full flex flex-col items-center justify-center overflow-hidden pt-20">
           
           {/* Background Video */}
           <div className="absolute inset-0 z-0">
@@ -182,9 +244,24 @@ function App() {
             
           </div>
         </section>
+            
+            {/* FADE TO BLACK OVERLAY */}
+            <div ref={overlayRef} className="absolute inset-0 bg-black opacity-0 z-40 pointer-events-none transition-opacity duration-100 ease-linear"></div>
+            
+            {/* GIANT 'O' ZOOM MASK */}
+            <div className="absolute inset-0 flex items-center justify-center z-50 pointer-events-none">
+                <svg ref={zoomLetterRef} viewBox="0 0 200 200" className="w-[30vw] h-[30vw] min-w-[200px] min-h-[200px] text-white opacity-0 transform origin-center will-change-transform">
+                    {/* A thick white ring. As it scales 1000x, the stroke completely covers the screen in white. */}
+                    <circle cx="100" cy="100" r="40" fill="none" stroke="currentColor" strokeWidth="40" />
+                </svg>
+            </div>
+          </div>
+        </div>
 
         {/* EXPERIENCES SECTION */}
         <section id="experiences" className="w-full min-h-[100svh] bg-white text-black pt-28 pb-12 md:pt-32 md:pb-20 flex flex-col items-center overflow-hidden relative">
+          
+          <div ref={section2InnerRef} className="w-full flex flex-col items-center opacity-0 will-change-opacity">
           
           {/* Section Header */}
           <div className="flex-none text-center mb-8 w-full flex flex-col items-center px-4 md:px-8">
@@ -273,6 +350,7 @@ function App() {
             </button>
           </div>
             
+          </div>
         </section>
 
         {/* TECH SHOWCASE SECTION (Section 4) */}
