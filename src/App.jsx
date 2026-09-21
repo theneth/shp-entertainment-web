@@ -286,20 +286,7 @@ function App() {
               </p>
             </div>
 
-            {/* Right Side: Glassmorphism Stats Card */}
-            <div className="w-full md:w-auto">
-              <div className="flex flex-col gap-8 bg-white/5 backdrop-blur-xl px-10 py-12 rounded-[2rem] border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
-                <div className="flex flex-col items-center md:items-start">
-                  <span className="text-4xl md:text-5xl font-black text-white drop-shadow-lg">100%</span>
-                  <span className="text-[9px] md:text-[10px] tracking-[0.3em] text-blue-400 uppercase mt-2 font-bold">Pioneer Gear</span>
-                </div>
-                <div className="w-full h-px bg-white/10"></div>
-                <div className="flex flex-col items-center md:items-start">
-                  <span className="text-4xl md:text-5xl font-black text-white drop-shadow-lg">8kW+</span>
-                  <span className="text-[9px] md:text-[10px] tracking-[0.3em] text-blue-400 uppercase mt-2 font-bold">Sound Systems</span>
-                </div>
-              </div>
-            </div>
+
             
           </div>
             
