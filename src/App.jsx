@@ -247,49 +247,70 @@ function App() {
         </section>
 
         {/* TECH SHOWCASE SECTION (Section 4) */}
-        <section id="vault" className="w-full min-h-[100svh] relative flex items-center justify-center overflow-hidden">
+        <section id="vault" className="w-full h-[100svh] relative bg-black overflow-hidden font-sans">
           
-          {/* Cinematic Video Background */}
-          <div className="absolute inset-0 z-0 bg-black">
+          {/* Base Layer: Cinematic Video Background */}
+          <div className="absolute inset-0 z-0">
             <video 
               autoPlay 
               muted 
               loop 
               playsInline
-              className="w-full h-full object-cover opacity-80"
+              className="w-full h-full object-cover opacity-60"
             >
               <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_135039_b04d00db-6ee2-4e2a-a7f5-b2dfd3d24fd2.mp4" type="video/mp4" />
             </video>
-            {/* Advanced Overlay Gradients for Depth and Text Legibility */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-black/80 z-10"></div>
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/50 z-10"></div>
+            {/* Subtle base gradient for contrast */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/30"></div>
           </div>
 
-          {/* Foreground Modern UI Layout */}
-          <div className="container mx-auto px-6 md:px-12 relative z-20 flex flex-col md:flex-row items-center justify-between gap-12 mt-12 md:mt-0">
+          {/* Layer 1: Background Typography (This sits behind the blur pane!) */}
+          <div className="absolute top-24 md:top-32 left-6 md:left-12 z-10 pointer-events-none w-full">
+            <h2 className="text-[20vw] md:text-[14vw] font-black uppercase tracking-tighter leading-[0.8] text-white drop-shadow-2xl opacity-90 mix-blend-overlay">
+              Pro-<br className="md:hidden" />Level
+            </h2>
+          </div>
+
+          {/* Layer 2: Frosted Glass / Blur Split Pane (Left Side) */}
+          <div className="absolute inset-y-0 left-0 w-full md:w-[45%] z-20 backdrop-blur-2xl md:backdrop-blur-[40px] bg-black/20 border-r border-white/5 pointer-events-none">
             
-            {/* Left Side: Main Typography */}
-            <div className="flex flex-col items-center md:items-start text-center md:text-left w-full md:w-1/2">
-              <span className="flex items-center gap-3 text-[10px] md:text-xs font-black tracking-[0.5em] text-white/70 uppercase mb-4 drop-shadow-md">
-                <div className="w-6 md:w-10 h-px bg-white/40"></div>
+            {/* Bottom Left Content sitting ON TOP of the blur pane */}
+            <div className="absolute bottom-12 md:bottom-20 left-6 md:left-12 w-[calc(100%-3rem)] max-w-sm z-30 pointer-events-auto">
+              <span className="flex items-center gap-4 text-[9px] font-bold tracking-[0.4em] text-white/50 uppercase mb-6">
                 The Vault
-                <div className="w-6 md:w-10 h-px bg-white/40 hidden md:block"></div>
+                <div className="w-12 h-px bg-white/30"></div>
               </span>
               
-              <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-[6rem] font-black uppercase tracking-tighter leading-[0.9] mb-6 drop-shadow-[0_10px_10px_rgba(0,0,0,0.8)]">
-                Pro-Level <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/40">Production</span>
-              </h2>
-              
-              <p className="text-sm md:text-base text-gray-300 max-w-lg leading-relaxed font-medium drop-shadow-xl">
+              <p className="text-sm md:text-base text-gray-200 leading-relaxed font-medium">
                 We don't just bring the music; we bring the club to you. Experience industry-leading sound systems and intelligent stage lighting setups engineered for flawless performance.
               </p>
+
+              {/* Minimalist Accents / Links similar to the reference */}
+              <div className="mt-10 flex gap-8 text-[9px] tracking-widest text-white/40 uppercase font-bold">
+                <span className="hover:text-white cursor-pointer transition-colors">+ Explore</span>
+                <span className="hover:text-white cursor-pointer transition-colors">+ Tech Specs</span>
+              </div>
             </div>
-
-
-            
           </div>
-            
+
+          {/* Layer 3: Foreground Typography (Right Side) */}
+          <div className="absolute bottom-12 md:bottom-20 right-6 md:right-12 z-30 pointer-events-none">
+            <h2 className="text-[14vw] md:text-[9vw] font-black uppercase tracking-tighter leading-none text-white drop-shadow-2xl text-right">
+              Production
+            </h2>
+          </div>
+
+          {/* UI Accents (Crosshairs & Dots) matching reference aesthetic */}
+          <div className="absolute top-12 right-12 z-30 text-white/20 hidden md:block">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1"><path d="M12 2v20M2 12h20"/></svg>
+          </div>
+          <div className="absolute top-1/3 right-1/4 z-30 hidden md:block">
+            <div className="w-2 h-2 bg-red-500/80 rounded-full shadow-[0_0_10px_rgba(239,68,68,0.8)]"></div>
+          </div>
+          <div className="absolute bottom-1/3 right-12 z-30 text-white/20 hidden md:block">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1"><path d="M12 2v20M2 12h20"/></svg>
+          </div>
+          
         </section>
       </main>
     </div>
