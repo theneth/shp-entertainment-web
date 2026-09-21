@@ -275,12 +275,10 @@ function App() {
                   font-size: 13vw; 
                   letter-spacing: -0.02em; 
                 }
-                .mask-x { x: 1.5rem; }
                 
                 @media (min-width: 768px) {
                   .mask-line1 { font-size: 4.3vw; }
                   .mask-line2 { font-size: 5vw; }
-                  .mask-x { x: 3rem; }
                 }
               `}</style>
               <mask id="knockout-mask">
@@ -288,6 +286,7 @@ function App() {
                 <rect width="100%" height="100%" fill="white" />
                 {/* Black text cuts the transparent hole */}
                 <text 
+                  x="6%"
                   y="40%"
                   dominantBaseline="middle" 
                   fill="black" 
@@ -295,8 +294,8 @@ function App() {
                   fontWeight="900"
                   textTransform="uppercase"
                 >
-                  <tspan className="mask-line1 mask-x" dy="0">PRO-LEVEL</tspan>
-                  <tspan className="mask-line2 mask-x" dy="0.85em">PRODUCTION</tspan>
+                  <tspan className="mask-line1" x="6%" dy="0">PRO-LEVEL</tspan>
+                  <tspan className="mask-line2" x="6%" dy="0.85em">PRODUCTION</tspan>
                 </text>
               </mask>
             </defs>
