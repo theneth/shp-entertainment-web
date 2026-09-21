@@ -290,12 +290,13 @@ function App() {
               <tspan x="${xPos}" dy="0.85em" font-size="${w * 0.05}px" letter-spacing="-0.02em">PRODUCTION</tspan>
             `;
             
-            // 3-Line Massive Mobile Layout
-            // 13vw for 'PRODUCTION' perfectly maxes out the ~94vw available width without overflowing!
+            // 3-Line Massive Mobile Layout (Perfectly justified to fill available screen width)
+            // Font sizes are inversely proportional to character counts (PRO- = 4, LEVEL = 5, PRODUCTION = 10) 
+            // so they stack into a perfect block.
             const mobileLines = `
-              <tspan x="${xPos}" dy="0" font-size="${w * 0.16}px" letter-spacing="0.02em">PRO-</tspan>
-              <tspan x="${xPos}" dy="0.85em" font-size="${w * 0.16}px" letter-spacing="0.02em">LEVEL</tspan>
-              <tspan x="${xPos}" dy="0.85em" font-size="${w * 0.13}px" letter-spacing="-0.04em">PRODUCTION</tspan>
+              <tspan x="${xPos}" dy="0" font-size="${w * 0.31}px" letter-spacing="-0.01em">PRO-</tspan>
+              <tspan x="${xPos}" dy="0.75em" font-size="${w * 0.25}px" letter-spacing="0.0em">LEVEL</tspan>
+              <tspan x="${xPos}" dy="0.9em" font-size="${w * 0.125}px" letter-spacing="-0.02em">PRODUCTION</tspan>
             `;
             
             // Build an SVG that acts as an ALPHA MASK for Safari.
@@ -320,7 +321,7 @@ function App() {
 
             return (
               <div 
-                className="absolute inset-y-0 left-0 w-full md:w-1/2 backdrop-blur-[30px] md:backdrop-blur-[50px] bg-[#050505]/60 border-r border-white/10 z-10 pointer-events-none"
+                className="absolute inset-y-0 left-0 w-full md:w-1/2 backdrop-blur-[30px] md:backdrop-blur-[50px] bg-[#050505]/60 border-r-0 md:border-r md:border-white/10 z-10 pointer-events-none"
                 style={{ 
                   WebkitMaskImage: encodedMask,
                   maskImage: encodedMask,
