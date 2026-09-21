@@ -264,20 +264,45 @@ function App() {
             <div className="absolute inset-0 bg-black/20"></div>
           </div>
 
-          {/* Layer 1: The Cutout Mask Group (Must be full screen to prevent Safari overflow blend bugs) */}
-          <div className="absolute inset-0 z-10 pointer-events-none" style={{ isolation: 'isolate' }}>
-            
-            {/* The Wall: Frosted Glass on the Left */}
-            <div className="absolute inset-y-0 left-0 w-full md:w-[45%] backdrop-blur-[30px] md:backdrop-blur-[50px] bg-[#050505]/60 border-r border-white/10 z-0"></div>
-            
-            {/* The Knockout Text: Forces hardware compositing to ensure destination-out punches a transparent hole to the video */}
-            <h2 
-              className="absolute top-24 md:top-32 left-6 md:left-12 text-[25vw] md:text-[15vw] font-black uppercase tracking-tighter leading-[0.75] z-10"
-              style={{ mixBlendMode: 'destination-out', color: 'black', WebkitTransform: 'translate3d(0,0,0)', transform: 'translate3d(0,0,0)' }}
-            >
-              Pro-<br className="md:hidden" />Level
-            </h2>
-          </div>
+          {/* SVG Mask Definition (Bulletproof cross-browser cutout) */}
+          <svg className="absolute w-0 h-0 pointer-events-none">
+            <defs>
+              <style>{`
+                .mask-txt { x: 1.5rem; y: 6rem; font-size: 25vw; }
+                .mask-tspan { x: 1.5rem; }
+                @media (min-width: 768px) {
+                  .mask-txt { x: 3rem; y: 8rem; font-size: 15vw; }
+                  .mask-tspan { x: 3rem; }
+                }
+              `}</style>
+              <mask id="knockout-mask">
+                {/* White rectangle keeps the frosted glass intact everywhere... */}
+                <rect width="100%" height="100%" fill="white" />
+                {/* ...except where this black text renders, punching a perfect transparent hole */}
+                <text 
+                  dominantBaseline="hanging" 
+                  fill="black" 
+                  fontFamily="system-ui, -apple-system, sans-serif"
+                  fontWeight="900"
+                  textTransform="uppercase"
+                  letterSpacing="-0.05em"
+                  className="mask-txt"
+                >
+                  <tspan dy="0" className="mask-tspan">PRO-</tspan>
+                  <tspan dy="0.75em" className="mask-tspan">LEVEL</tspan>
+                </text>
+              </mask>
+            </defs>
+          </svg>
+
+          {/* Layer 1: Frosted Glass Wall (Masked) */}
+          <div 
+            className="absolute inset-y-0 left-0 w-full md:w-[45%] backdrop-blur-[30px] md:backdrop-blur-[50px] bg-[#050505]/60 border-r border-white/10 z-10 pointer-events-none"
+            style={{ 
+              mask: 'url(#knockout-mask)',
+              WebkitMask: 'url(#knockout-mask)'
+            }}
+          ></div>
 
           {/* Layer 2: Bottom Left Content (Sits cleanly on top of the wall) */}
           <div className="absolute bottom-12 md:bottom-20 left-6 md:left-12 w-[calc(100%-3rem)] max-w-sm z-30 pointer-events-auto">
