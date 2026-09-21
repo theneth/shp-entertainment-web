@@ -15,12 +15,21 @@ const services = [
 function App() {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   // Fallback timeout: ensures the loading screen doesn't get stuck indefinitely 
   // on mobile browsers with strict autoplay/loading policies.
   useEffect(() => {
     const timer = setTimeout(() => setIsVideoLoaded(true), 5000);
     return () => clearTimeout(timer);
+  }, []);
+
+  // Window resize listener for programmatic SVG typography styling
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile(); // Check on initial mount
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   // Listen to scroll to change navbar theme
@@ -263,24 +272,8 @@ function App() {
             <div className="absolute inset-0 bg-black/10"></div>
           </div>
 
-          {/* Safari Fix: Move styles OUTSIDE of SVG <defs> because iOS Safari often ignores internal styles */}
-          <style>{`
-            .mask-line1 { 
-              font-size: 9vw; 
-              letter-spacing: 0.15em; 
-            }
-            .mask-line2 { 
-              font-size: 9.5vw; 
-              letter-spacing: -0.02em; 
-            }
-            
-            @media (min-width: 768px) {
-              .mask-line1 { font-size: 4.3vw; }
-              .mask-line2 { font-size: 5vw; }
-            }
-          `}</style>
-
           {/* SVG Mask Definition: Cuts a justified two-line typographic lockup */}
+          {/* iOS Safari BUGFIX: Safari ignores CSS classes & <style> blocks for SVG masks. We MUST use React inline styles directly on the DOM nodes! */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
             <defs>
               <mask id="knockout-mask">
@@ -296,8 +289,26 @@ function App() {
                   fontWeight="900"
                   textTransform="uppercase"
                 >
-                  <tspan className="mask-line1" x="6%" dy="0">PRO-LEVEL</tspan>
-                  <tspan className="mask-line2" x="6%" dy="0.85em">PRODUCTION</tspan>
+                  <tspan 
+                    x="6%" 
+                    dy="0" 
+                    style={{ 
+                      fontSize: isMobile ? '9vw' : '4.3vw', 
+                      letterSpacing: '0.15em' 
+                    }}
+                  >
+                    PRO-LEVEL
+                  </tspan>
+                  <tspan 
+                    x="6%" 
+                    dy="0.85em" 
+                    style={{ 
+                      fontSize: isMobile ? '9.5vw' : '5vw', 
+                      letterSpacing: '-0.02em' 
+                    }}
+                  >
+                    PRODUCTION
+                  </tspan>
                 </text>
               </mask>
             </defs>
@@ -307,9 +318,6 @@ function App() {
           <div 
             className="absolute inset-y-0 left-0 w-full md:w-1/2 backdrop-blur-[30px] md:backdrop-blur-[50px] bg-[#050505]/60 border-r border-white/10 z-10 pointer-events-none"
             style={{ 
-              /* iOS Safari fix: Explicitly use mask-image instead of shorthand mask */
-              maskImage: 'url(#knockout-mask)',
-              WebkitMaskImage: 'url(#knockout-mask)',
               mask: 'url(#knockout-mask)',
               WebkitMask: 'url(#knockout-mask)'
             }}
