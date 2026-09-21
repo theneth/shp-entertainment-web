@@ -282,39 +282,65 @@ function App() {
           {/* iOS Safari BUGFIX: Inline SVG masks in the DOM are catastrophically buggy in Safari. Generating a literal SVG image string completely bypasses WebKit's DOM masking issues. */}
           {(() => {
             const { w, h, isMobile } = win;
-            // Calculate absolute pixel coordinates instead of relying on Safari to parse vw/vh correctly in SVGs
+            // Calculate absolute pixel coordinates to eliminate ALL Safari sizing/baseline bugs
             const xPos = w * 0.06; 
-            
-            const desktopLines = `
-              <tspan x="${xPos}" dy="0" font-size="${w * 0.043}px" letter-spacing="0.15em">PRO-LEVEL</tspan>
-              <tspan x="${xPos}" dy="0.85em" font-size="${w * 0.05}px" letter-spacing="-0.02em">PRODUCTION</tspan>
-            `;
-            
-            // 3-Line Massive Mobile Layout (Perfectly justified to fill available screen width)
-            // Font sizes are inversely proportional to character counts (PRO- = 4, LEVEL = 5, PRODUCTION = 10) 
-            // so they stack into a perfect block.
-            const mobileLines = `
-              <tspan x="${xPos}" dy="0" font-size="${w * 0.31}px" letter-spacing="-0.01em">PRO-</tspan>
-              <tspan x="${xPos}" dy="0.75em" font-size="${w * 0.25}px" letter-spacing="0.0em">LEVEL</tspan>
-              <tspan x="${xPos}" dy="0.9em" font-size="${w * 0.125}px" letter-spacing="-0.02em">PRODUCTION</tspan>
-            `;
-            
-            // Build an SVG that acts as an ALPHA MASK for Safari.
-            // Solid black background (opaque = keeps frosted glass).
-            // Transparent hole cut into the black background (transparent = punches through to video).
-            const maskSvg = `
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}">
-                <defs>
-                  <mask id="hole">
-                    <rect width="100%" height="100%" fill="white"/>
-                    <text x="${xPos}" y="${h * 0.4}" dominant-baseline="middle" font-family="system-ui, -apple-system, sans-serif" font-weight="900" fill="black" text-transform="uppercase">
-                      ${isMobile ? mobileLines : desktopLines}
-                    </text>
-                  </mask>
-                </defs>
-                <rect width="100%" height="100%" fill="black" mask="url(#hole)" />
-              </svg>
-            `;
+            const capRatio = 0.74; // Standard sans-serif cap height ratio
+            let maskSvg = '';
+
+            if (isMobile) {
+              // MOBILE LAYOUT: Perfectly justified 3-line block aligned to top
+              const targetWidth = w * 0.88; // 100vw - 6vw left margin - 6vw right margin
+              const gap = w * 0.015; // 1.5vw exact gap between lines
+              
+              // Base font sizes proportional to character counts, scaled heavily
+              const fs1 = w * 0.33; // PRO-
+              const fs2 = w * 0.26; // LEVEL
+              const fs3 = w * 0.134; // PRODUCTION
+              
+              // Absolute Y positioning ensures zero overlap regardless of line-height scaling
+              const startY = h * 0.18 + (fs1 * capRatio); // Push 18% down from top
+              const y1 = startY;
+              const y2 = y1 + gap + (fs2 * capRatio);
+              const y3 = y2 + gap + (fs3 * capRatio);
+
+              // Use textLength to force exact pixel-perfect flush edge alignment
+              maskSvg = `
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}">
+                  <defs>
+                    <mask id="hole">
+                      <rect width="100%" height="100%" fill="white"/>
+                      <text font-family="system-ui, -apple-system, sans-serif" font-weight="900" fill="black" text-transform="uppercase">
+                        <tspan x="${xPos}" y="${y1}" font-size="${fs1}px" textLength="${targetWidth}" lengthAdjust="spacing">PRO-</tspan>
+                        <tspan x="${xPos}" y="${y2}" font-size="${fs2}px" textLength="${targetWidth}" lengthAdjust="spacing">LEVEL</tspan>
+                        <tspan x="${xPos}" y="${y3}" font-size="${fs3}px" textLength="${targetWidth}" lengthAdjust="spacing">PRODUCTION</tspan>
+                      </text>
+                    </mask>
+                  </defs>
+                  <rect width="100%" height="100%" fill="black" mask="url(#hole)" />
+                </svg>
+              `;
+            } else {
+              // DESKTOP LAYOUT: 2-line block vertically centered
+              const dFs1 = w * 0.043;
+              const dFs2 = w * 0.05;
+              const dY1 = h * 0.45;
+              const dY2 = dY1 + (dFs2 * capRatio) + (w * 0.01);
+              
+              maskSvg = `
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}">
+                  <defs>
+                    <mask id="hole">
+                      <rect width="100%" height="100%" fill="white"/>
+                      <text font-family="system-ui, -apple-system, sans-serif" font-weight="900" fill="black" text-transform="uppercase">
+                        <tspan x="${xPos}" y="${dY1}" font-size="${dFs1}px" letter-spacing="0.15em">PRO-LEVEL</tspan>
+                        <tspan x="${xPos}" y="${dY2}" font-size="${dFs2}px" letter-spacing="-0.02em">PRODUCTION</tspan>
+                      </text>
+                    </mask>
+                  </defs>
+                  <rect width="100%" height="100%" fill="black" mask="url(#hole)" />
+                </svg>
+              `;
+            }
             
             // Encode the SVG as a base64-equivalent UTF-8 data URI image
             const encodedMask = `url("data:image/svg+xml;charset=utf-8,${encodeURIComponent(maskSvg)}")`;
@@ -335,7 +361,7 @@ function App() {
           })()}
 
           {/* Other Texts (Bottom of glass part, NOT cut out) */}
-          <div className="absolute bottom-12 md:bottom-20 left-6 md:left-12 w-[calc(100%-3rem)] md:w-[45%] max-w-lg z-30 pointer-events-auto">
+          <div className="absolute bottom-[10svh] md:bottom-20 left-6 md:left-12 w-[calc(100%-3rem)] md:w-[45%] max-w-lg z-30 pointer-events-auto">
             <span className="flex items-center gap-4 text-[9px] md:text-xs font-bold tracking-[0.4em] text-white/50 uppercase mb-6">
               The Vault
               <div className="w-12 h-px bg-white/30"></div>
