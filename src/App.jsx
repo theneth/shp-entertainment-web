@@ -263,24 +263,26 @@ function App() {
             <div className="absolute inset-0 bg-black/10"></div>
           </div>
 
+          {/* Safari Fix: Move styles OUTSIDE of SVG <defs> because iOS Safari often ignores internal styles */}
+          <style>{`
+            .mask-line1 { 
+              font-size: 9vw; 
+              letter-spacing: 0.15em; 
+            }
+            .mask-line2 { 
+              font-size: 9.5vw; 
+              letter-spacing: -0.02em; 
+            }
+            
+            @media (min-width: 768px) {
+              .mask-line1 { font-size: 4.3vw; }
+              .mask-line2 { font-size: 5vw; }
+            }
+          `}</style>
+
           {/* SVG Mask Definition: Cuts a justified two-line typographic lockup */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
             <defs>
-              <style>{`
-                .mask-line1 { 
-                  font-size: 9vw; 
-                  letter-spacing: 0.15em; 
-                }
-                .mask-line2 { 
-                  font-size: 9.5vw; 
-                  letter-spacing: -0.02em; 
-                }
-                
-                @media (min-width: 768px) {
-                  .mask-line1 { font-size: 4.3vw; }
-                  .mask-line2 { font-size: 5vw; }
-                }
-              `}</style>
               <mask id="knockout-mask">
                 {/* White rectangle keeps the frosted glass intact */}
                 <rect width="100%" height="100%" fill="white" />
@@ -305,6 +307,9 @@ function App() {
           <div 
             className="absolute inset-y-0 left-0 w-full md:w-1/2 backdrop-blur-[30px] md:backdrop-blur-[50px] bg-[#050505]/60 border-r border-white/10 z-10 pointer-events-none"
             style={{ 
+              /* iOS Safari fix: Explicitly use mask-image instead of shorthand mask */
+              maskImage: 'url(#knockout-mask)',
+              WebkitMaskImage: 'url(#knockout-mask)',
               mask: 'url(#knockout-mask)',
               WebkitMask: 'url(#knockout-mask)'
             }}
