@@ -347,7 +347,7 @@ function App() {
 
             return (
               <div 
-                className="absolute inset-y-0 left-0 w-full md:w-1/2 backdrop-blur-[30px] md:backdrop-blur-[50px] bg-[#050505]/60 border-r-0 md:border-r md:border-white/10 z-10 pointer-events-none"
+                className="absolute inset-y-0 left-0 w-full md:w-1/2 backdrop-blur-[40px] md:backdrop-blur-[60px] backdrop-saturate-150 bg-gradient-to-br from-white/30 via-white/10 to-black/40 shadow-[inset_0_1px_2px_rgba(255,255,255,0.4),inset_0_0_40px_rgba(255,255,255,0.15)] border-r-0 md:border-r md:border-white/20 z-10 pointer-events-none"
                 style={{ 
                   WebkitMaskImage: encodedMask,
                   maskImage: encodedMask,
