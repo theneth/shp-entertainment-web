@@ -284,8 +284,19 @@ function App() {
             const { w, h, isMobile } = win;
             // Calculate absolute pixel coordinates instead of relying on Safari to parse vw/vh correctly in SVGs
             const xPos = w * 0.06; 
-            const fontSize1 = isMobile ? w * 0.09 : w * 0.043;
-            const fontSize2 = isMobile ? w * 0.095 : w * 0.05;
+            
+            const desktopLines = `
+              <tspan x="${xPos}" dy="0" font-size="${w * 0.043}px" letter-spacing="0.15em">PRO-LEVEL</tspan>
+              <tspan x="${xPos}" dy="0.85em" font-size="${w * 0.05}px" letter-spacing="-0.02em">PRODUCTION</tspan>
+            `;
+            
+            // 3-Line Massive Mobile Layout
+            // 13vw for 'PRODUCTION' perfectly maxes out the ~94vw available width without overflowing!
+            const mobileLines = `
+              <tspan x="${xPos}" dy="0" font-size="${w * 0.16}px" letter-spacing="0.02em">PRO-</tspan>
+              <tspan x="${xPos}" dy="0.85em" font-size="${w * 0.16}px" letter-spacing="0.02em">LEVEL</tspan>
+              <tspan x="${xPos}" dy="0.85em" font-size="${w * 0.13}px" letter-spacing="-0.04em">PRODUCTION</tspan>
+            `;
             
             // Build an SVG that acts as an ALPHA MASK for Safari.
             // Solid black background (opaque = keeps frosted glass).
@@ -296,8 +307,7 @@ function App() {
                   <mask id="hole">
                     <rect width="100%" height="100%" fill="white"/>
                     <text x="${xPos}" y="${h * 0.4}" dominant-baseline="middle" font-family="system-ui, -apple-system, sans-serif" font-weight="900" fill="black" text-transform="uppercase">
-                      <tspan x="${xPos}" dy="0" font-size="${fontSize1}px" letter-spacing="0.15em">PRO-LEVEL</tspan>
-                      <tspan x="${xPos}" dy="0.85em" font-size="${fontSize2}px" letter-spacing="-0.02em">PRODUCTION</tspan>
+                      ${isMobile ? mobileLines : desktopLines}
                     </text>
                   </mask>
                 </defs>
