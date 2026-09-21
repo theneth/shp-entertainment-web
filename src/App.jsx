@@ -256,23 +256,24 @@ function App() {
               muted 
               loop 
               playsInline
-              className="w-full h-full object-cover opacity-60"
+              className="w-full h-full object-cover opacity-100"
             >
               <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_135039_b04d00db-6ee2-4e2a-a7f5-b2dfd3d24fd2.mp4" type="video/mp4" />
             </video>
             {/* Subtle base gradient for contrast */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/30"></div>
+            <div className="absolute inset-0 bg-black/20"></div>
           </div>
 
-          {/* Layer 1: Frosted Glass Wall with Cutout Typography (Knockout Effect) */}
-          <div className="absolute inset-y-0 left-0 w-full md:w-[45%] z-10 pointer-events-none" style={{ isolation: 'isolate' }}>
-            {/* The Wall (Frosted background) */}
-            <div className="absolute inset-0 backdrop-blur-2xl md:backdrop-blur-[40px] bg-[#0a0a0a]/60 border-r border-white/10 z-0"></div>
+          {/* Layer 1: The Cutout Mask Group (Must be full screen to prevent Safari overflow blend bugs) */}
+          <div className="absolute inset-0 z-10 pointer-events-none" style={{ isolation: 'isolate' }}>
             
-            {/* The Knockout Text: Cuts a transparent hole through the wall so the raw video shows through */}
+            {/* The Wall: Frosted Glass on the Left */}
+            <div className="absolute inset-y-0 left-0 w-full md:w-[45%] backdrop-blur-[30px] md:backdrop-blur-[50px] bg-[#050505]/60 border-r border-white/10 z-0"></div>
+            
+            {/* The Knockout Text: Forces hardware compositing to ensure destination-out punches a transparent hole to the video */}
             <h2 
               className="absolute top-24 md:top-32 left-6 md:left-12 text-[25vw] md:text-[15vw] font-black uppercase tracking-tighter leading-[0.75] z-10"
-              style={{ mixBlendMode: 'destination-out', color: 'black' }}
+              style={{ mixBlendMode: 'destination-out', color: 'black', WebkitTransform: 'translate3d(0,0,0)', transform: 'translate3d(0,0,0)' }}
             >
               Pro-<br className="md:hidden" />Level
             </h2>
