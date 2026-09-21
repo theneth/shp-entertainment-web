@@ -15,7 +15,7 @@ const services = [
 function App() {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [win, setWin] = useState({ w: 1000, h: 1000, isMobile: false });
 
   // Fallback timeout: ensures the loading screen doesn't get stuck indefinitely 
   // on mobile browsers with strict autoplay/loading policies.
@@ -24,12 +24,18 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Window resize listener for programmatic SVG typography styling
+  // Window resize listener for programmatic Data URI SVG mask styling
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile(); // Check on initial mount
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    const updateDimensions = () => {
+      setWin({
+        w: window.innerWidth,
+        h: window.innerHeight,
+        isMobile: window.innerWidth < 768
+      });
+    };
+    updateDimensions(); // Initial check
+    window.addEventListener('resize', updateDimensions);
+    return () => window.removeEventListener('resize', updateDimensions);
   }, []);
 
   // Listen to scroll to change navbar theme
@@ -272,56 +278,50 @@ function App() {
             <div className="absolute inset-0 bg-black/10"></div>
           </div>
 
-          {/* SVG Mask Definition: Cuts a justified two-line typographic lockup */}
-          {/* iOS Safari BUGFIX: Safari ignores CSS classes & <style> blocks for SVG masks. We MUST use React inline styles directly on the DOM nodes! */}
-          <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
-            <defs>
-              <mask id="knockout-mask">
-                {/* White rectangle keeps the frosted glass intact */}
-                <rect width="100%" height="100%" fill="white" />
-                {/* Black text cuts the transparent hole */}
-                <text 
-                  x="6%"
-                  y="40%"
-                  dominantBaseline="middle" 
-                  fill="black" 
-                  fontFamily="system-ui, -apple-system, sans-serif"
-                  fontWeight="900"
-                  textTransform="uppercase"
-                >
-                  <tspan 
-                    x="6%" 
-                    dy="0" 
-                    style={{ 
-                      fontSize: isMobile ? '9vw' : '4.3vw', 
-                      letterSpacing: '0.15em' 
-                    }}
-                  >
-                    PRO-LEVEL
-                  </tspan>
-                  <tspan 
-                    x="6%" 
-                    dy="0.85em" 
-                    style={{ 
-                      fontSize: isMobile ? '9.5vw' : '5vw', 
-                      letterSpacing: '-0.02em' 
-                    }}
-                  >
-                    PRODUCTION
-                  </tspan>
-                </text>
-              </mask>
-            </defs>
-          </svg>
+          {/* SVG Mask Definition: Dynamically rendered as an external Data URI image */}
+          {/* iOS Safari BUGFIX: Inline SVG masks in the DOM are catastrophically buggy in Safari. Generating a literal SVG image string completely bypasses WebKit's DOM masking issues. */}
+          {(() => {
+            const { w, h, isMobile } = win;
+            // Calculate absolute pixel coordinates instead of relying on Safari to parse vw/vh correctly in SVGs
+            const xPos = w * 0.06; 
+            const fontSize1 = isMobile ? w * 0.09 : w * 0.043;
+            const fontSize2 = isMobile ? w * 0.095 : w * 0.05;
+            
+            // Build an SVG that acts as an ALPHA MASK for Safari.
+            // Solid black background (opaque = keeps frosted glass).
+            // Transparent hole cut into the black background (transparent = punches through to video).
+            const maskSvg = `
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}">
+                <defs>
+                  <mask id="hole">
+                    <rect width="100%" height="100%" fill="white"/>
+                    <text x="${xPos}" y="${h * 0.4}" dominant-baseline="middle" font-family="system-ui, -apple-system, sans-serif" font-weight="900" fill="black" text-transform="uppercase">
+                      <tspan x="${xPos}" dy="0" font-size="${fontSize1}px" letter-spacing="0.15em">PRO-LEVEL</tspan>
+                      <tspan x="${xPos}" dy="0.85em" font-size="${fontSize2}px" letter-spacing="-0.02em">PRODUCTION</tspan>
+                    </text>
+                  </mask>
+                </defs>
+                <rect width="100%" height="100%" fill="black" mask="url(#hole)" />
+              </svg>
+            `;
+            
+            // Encode the SVG as a base64-equivalent UTF-8 data URI image
+            const encodedMask = \`url("data:image/svg+xml;charset=utf-8,\${encodeURIComponent(maskSvg)}")\`;
 
-          {/* Left Half: Frosted Glass Wall (Masked to punch out the main text) */}
-          <div 
-            className="absolute inset-y-0 left-0 w-full md:w-1/2 backdrop-blur-[30px] md:backdrop-blur-[50px] bg-[#050505]/60 border-r border-white/10 z-10 pointer-events-none"
-            style={{ 
-              mask: 'url(#knockout-mask)',
-              WebkitMask: 'url(#knockout-mask)'
-            }}
-          ></div>
+            return (
+              <div 
+                className="absolute inset-y-0 left-0 w-full md:w-1/2 backdrop-blur-[30px] md:backdrop-blur-[50px] bg-[#050505]/60 border-r border-white/10 z-10 pointer-events-none"
+                style={{ 
+                  WebkitMaskImage: encodedMask,
+                  maskImage: encodedMask,
+                  WebkitMaskSize: '100% 100%',
+                  maskSize: '100% 100%',
+                  WebkitMaskRepeat: 'no-repeat',
+                  maskRepeat: 'no-repeat'
+                }}
+              ></div>
+            );
+          })()}
 
           {/* Other Texts (Bottom of glass part, NOT cut out) */}
           <div className="absolute bottom-12 md:bottom-20 left-6 md:left-12 w-[calc(100%-3rem)] md:w-[45%] max-w-lg z-30 pointer-events-auto">
