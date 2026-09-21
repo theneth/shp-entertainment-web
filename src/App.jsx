@@ -145,15 +145,29 @@ function App() {
           {/* Core Content */}
           <div className="relative z-10 flex flex-col items-center w-full h-full justify-between pb-0">
             
-            <div className="flex flex-col items-center mt-[2svh] md:mt-[4svh] w-full px-4">
-              <span className="text-[9px] sm:text-[10px] md:text-[1vw] font-black tracking-[0.4em] md:tracking-[0.5em] text-gray-300 uppercase mb-4 opacity-80 flex items-center gap-2 md:gap-4 text-center">
+            <div className="flex flex-col items-center mt-[2svh] md:mt-[4svh] w-full">
+              <span className="text-[9px] sm:text-[10px] md:text-[1vw] font-black tracking-[0.4em] md:tracking-[0.5em] text-gray-300 uppercase mb-4 opacity-80 flex items-center gap-2 md:gap-4 text-center px-4">
                 <div className="hidden sm:block w-8 md:w-12 h-px bg-gray-500"></div>
                 We Make Every Moment
                 <div className="hidden sm:block w-8 md:w-12 h-px bg-gray-500"></div>
               </span>
-              <h2 className="text-[15vw] md:text-[12vw] font-black uppercase tracking-tighter leading-none text-white drop-shadow-2xl text-center">
-                Unforgettable
-              </h2>
+              
+              {/* Infinite Scrolling Marquee Rail */}
+              <div 
+                className="flex flex-nowrap w-full overflow-hidden"
+                style={{ 
+                  maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+                  WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)'
+                }}
+              >
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="flex animate-marquee shrink-0 items-center">
+                    <h2 className="text-[17vw] md:text-[14vw] font-black uppercase tracking-tighter leading-none text-white drop-shadow-2xl mx-4 md:mx-6">
+                      Unforgettable
+                    </h2>
+                  </div>
+                ))}
+              </div>
             </div>
             
             {/* DJ Image */}
