@@ -293,9 +293,9 @@ function App() {
               const gap = w * 0.015; // 1.5vw exact gap between lines
               
               // Base font sizes proportional to character counts, scaled heavily
-              const fs1 = w * 0.33; // PRO-
-              const fs2 = w * 0.26; // LEVEL
-              const fs3 = w * 0.134; // PRODUCTION
+              const fs1 = w * 0.44; // PRO (3 chars) -> Requires even bigger font size to naturally hit 88vw width!
+              const fs2 = w * 0.26; // LEVEL (5 chars)
+              const fs3 = w * 0.134; // PRODUCTION (10 chars)
               
               // Absolute Y positioning ensures zero overlap regardless of line-height scaling
               const startY = h * 0.18 + (fs1 * capRatio); // Push 18% down from top
@@ -310,7 +310,7 @@ function App() {
                     <mask id="hole">
                       <rect width="100%" height="100%" fill="white"/>
                       <text font-family="system-ui, -apple-system, sans-serif" font-weight="900" fill="black" text-transform="uppercase">
-                        <tspan x="${xPos}" y="${y1}" font-size="${fs1}px" textLength="${targetWidth}" lengthAdjust="spacing">PRO-</tspan>
+                        <tspan x="${xPos}" y="${y1}" font-size="${fs1}px" textLength="${targetWidth}" lengthAdjust="spacing">PRO</tspan>
                         <tspan x="${xPos}" y="${y2}" font-size="${fs2}px" textLength="${targetWidth}" lengthAdjust="spacing">LEVEL</tspan>
                         <tspan x="${xPos}" y="${y3}" font-size="${fs3}px" textLength="${targetWidth}" lengthAdjust="spacing">PRODUCTION</tspan>
                       </text>
@@ -332,7 +332,7 @@ function App() {
                     <mask id="hole">
                       <rect width="100%" height="100%" fill="white"/>
                       <text font-family="system-ui, -apple-system, sans-serif" font-weight="900" fill="black" text-transform="uppercase">
-                        <tspan x="${xPos}" y="${dY1}" font-size="${dFs1}px" letter-spacing="0.15em">PRO-LEVEL</tspan>
+                        <tspan x="${xPos}" y="${dY1}" font-size="${dFs1}px" letter-spacing="0.15em">PRO LEVEL</tspan>
                         <tspan x="${xPos}" y="${dY2}" font-size="${dFs2}px" letter-spacing="-0.02em">PRODUCTION</tspan>
                       </text>
                     </mask>
