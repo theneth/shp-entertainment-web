@@ -264,12 +264,18 @@ function App() {
           </div>
 
           {/* SVG Mask Definition: Cuts PRO-LEVEL PRODUCTION on one responsive line */}
-          <svg className="absolute w-0 h-0 pointer-events-none">
+          <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
             <defs>
               <style>{`
-                .mask-txt { x: 1.5rem; y: 35vh; font-size: 8vw; }
+                .mask-txt { 
+                  font-size: 8vw; 
+                  font-family: system-ui, -apple-system, sans-serif;
+                  font-weight: 900;
+                  text-transform: uppercase;
+                  letter-spacing: -0.02em;
+                }
                 @media (min-width: 768px) {
-                  .mask-txt { x: 3rem; y: 40vh; font-size: 3.5vw; }
+                  .mask-txt { font-size: 3.5vw; }
                 }
               `}</style>
               <mask id="knockout-mask">
@@ -277,12 +283,10 @@ function App() {
                 <rect width="100%" height="100%" fill="white" />
                 {/* Black text cuts the transparent hole */}
                 <text 
+                  x="5%"
+                  y="50%"
                   dominantBaseline="middle" 
                   fill="black" 
-                  fontFamily="system-ui, -apple-system, sans-serif"
-                  fontWeight="900"
-                  textTransform="uppercase"
-                  letterSpacing="-0.02em"
                   className="mask-txt"
                 >
                   PRO-LEVEL PRODUCTION
