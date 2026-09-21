@@ -306,7 +306,7 @@ function App() {
             `;
             
             // Encode the SVG as a base64-equivalent UTF-8 data URI image
-            const encodedMask = \`url("data:image/svg+xml;charset=utf-8,\${encodeURIComponent(maskSvg)}")\`;
+            const encodedMask = `url("data:image/svg+xml;charset=utf-8,${encodeURIComponent(maskSvg)}")`;
 
             return (
               <div 
