@@ -264,32 +264,35 @@ function App() {
             <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/30"></div>
           </div>
 
-          {/* Layer 1: Background Typography (This sits behind the blur pane!) */}
-          <div className="absolute top-24 md:top-32 left-6 md:left-12 z-10 pointer-events-none w-full">
-            <h2 className="text-[20vw] md:text-[14vw] font-black uppercase tracking-tighter leading-[0.8] text-white drop-shadow-2xl opacity-90 mix-blend-overlay">
+          {/* Layer 1: Frosted Glass Wall with Cutout Typography (Knockout Effect) */}
+          <div className="absolute inset-y-0 left-0 w-full md:w-[45%] z-10 pointer-events-none" style={{ isolation: 'isolate' }}>
+            {/* The Wall (Frosted background) */}
+            <div className="absolute inset-0 backdrop-blur-2xl md:backdrop-blur-[40px] bg-[#0a0a0a]/60 border-r border-white/10 z-0"></div>
+            
+            {/* The Knockout Text: Cuts a transparent hole through the wall so the raw video shows through */}
+            <h2 
+              className="absolute top-24 md:top-32 left-6 md:left-12 text-[25vw] md:text-[15vw] font-black uppercase tracking-tighter leading-[0.75] z-10"
+              style={{ mixBlendMode: 'destination-out', color: 'black' }}
+            >
               Pro-<br className="md:hidden" />Level
             </h2>
           </div>
 
-          {/* Layer 2: Frosted Glass / Blur Split Pane (Left Side) */}
-          <div className="absolute inset-y-0 left-0 w-full md:w-[45%] z-20 backdrop-blur-2xl md:backdrop-blur-[40px] bg-black/20 border-r border-white/5 pointer-events-none">
+          {/* Layer 2: Bottom Left Content (Sits cleanly on top of the wall) */}
+          <div className="absolute bottom-12 md:bottom-20 left-6 md:left-12 w-[calc(100%-3rem)] max-w-sm z-30 pointer-events-auto">
+            <span className="flex items-center gap-4 text-[9px] font-bold tracking-[0.4em] text-white/50 uppercase mb-6">
+              The Vault
+              <div className="w-12 h-px bg-white/30"></div>
+            </span>
             
-            {/* Bottom Left Content sitting ON TOP of the blur pane */}
-            <div className="absolute bottom-12 md:bottom-20 left-6 md:left-12 w-[calc(100%-3rem)] max-w-sm z-30 pointer-events-auto">
-              <span className="flex items-center gap-4 text-[9px] font-bold tracking-[0.4em] text-white/50 uppercase mb-6">
-                The Vault
-                <div className="w-12 h-px bg-white/30"></div>
-              </span>
-              
-              <p className="text-sm md:text-base text-gray-200 leading-relaxed font-medium">
-                We don't just bring the music; we bring the club to you. Experience industry-leading sound systems and intelligent stage lighting setups engineered for flawless performance.
-              </p>
+            <p className="text-sm md:text-base text-gray-200 leading-relaxed font-medium">
+              We don't just bring the music; we bring the club to you. Experience industry-leading sound systems and intelligent stage lighting setups engineered for flawless performance.
+            </p>
 
-              {/* Minimalist Accents / Links similar to the reference */}
-              <div className="mt-10 flex gap-8 text-[9px] tracking-widest text-white/40 uppercase font-bold">
-                <span className="hover:text-white cursor-pointer transition-colors">+ Explore</span>
-                <span className="hover:text-white cursor-pointer transition-colors">+ Tech Specs</span>
-              </div>
+            {/* Minimalist Accents / Links similar to the reference */}
+            <div className="mt-10 flex gap-8 text-[9px] tracking-widest text-white/40 uppercase font-bold">
+              <span className="hover:text-white cursor-pointer transition-colors">+ Explore</span>
+              <span className="hover:text-white cursor-pointer transition-colors">+ Tech Specs</span>
             </div>
           </div>
 
